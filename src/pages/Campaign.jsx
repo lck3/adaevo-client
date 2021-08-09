@@ -69,19 +69,22 @@ function Tables() {
 
   return (
     <>
-      <PageTitle>Tables</PageTitle>
+      <PageTitle>Campaigns</PageTitle>
 
-      <CTA />
 
-      <SectionTitle>Simple table</SectionTitle>
+      <SectionTitle>All Campaigns</SectionTitle>
       <TableContainer className="mb-8">
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>Client</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Date</TableCell>
+              <TableCell>Page</TableCell>
+              <TableCell>Click</TableCell>
+              <TableCell>Leads</TableCell>
+              <TableCell>Reject</TableCell>
+              <TableCell>Validat</TableCell>
+              <TableCell>CPL</TableCell>
+              <TableCell>Rev</TableCell>
+              <TableCell>Margin</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
@@ -89,10 +92,11 @@ function Tables() {
               <TableRow key={i}>
                 <TableCell>
                   <div className="flex items-center text-sm">
-                    <Avatar className="hidden mr-3 md:block" src={user.avatar} alt="User avatar" />
+                    <Badge type={user.status}>
+
+                    </Badge>
                     <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{user.job}</p>
+                      <p className="text-gray-600 dark:text-gray-400">{user.name}</p>
                     </div>
                   </div>
                 </TableCell>
@@ -100,10 +104,22 @@ function Tables() {
                   <span className="text-sm">$ {user.amount}</span>
                 </TableCell>
                 <TableCell>
-                  <Badge type={user.status}>{user.status}</Badge>
+                  <span  className="text-sm">{user.amount}</span>
                 </TableCell>
                 <TableCell>
-                  <span className="text-sm">{new Date(user.date).toLocaleDateString()}</span>
+                  <span  className="text-sm">{user.amount}%</span>
+                </TableCell>
+                <TableCell>
+                  <span  className="text-sm">{user.amount}</span>
+                </TableCell>
+                <TableCell>
+                  <span  className="text-sm">{user.amount}</span>
+                </TableCell>
+                <TableCell>
+                  <span  className="text-sm">{user.amount}</span>
+                </TableCell>
+                <TableCell>
+                  <span className="text-sm">{user.amount}</span>
                 </TableCell>
               </TableRow>
             ))}
@@ -119,62 +135,7 @@ function Tables() {
         </TableFooter>
       </TableContainer>
 
-      <SectionTitle>Table with actions</SectionTitle>
-      <TableContainer className="mb-8">
-        <Table>
-          <TableHeader>
-            <tr>
-              <TableCell>Client</TableCell>
-              <TableCell>Amount</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Actions</TableCell>
-            </tr>
-          </TableHeader>
-          <TableBody>
-            {dataTable2.map((user, i) => (
-              <TableRow key={i}>
-                <TableCell>
-                  <div className="flex items-center text-sm">
-                    <Avatar className="hidden mr-3 md:block" src={user.avatar} alt="User avatar" />
-                    <div>
-                      <p className="font-semibold">{user.name}</p>
-                      <p className="text-xs text-gray-600 dark:text-gray-400">{user.job}</p>
-                    </div>
-                  </div>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">$ {user.amount}</span>
-                </TableCell>
-                <TableCell>
-                  <Badge type={user.status}>{user.status}</Badge>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">{new Date(user.date).toLocaleDateString()}</span>
-                </TableCell>
-                <TableCell>
-                  <div className="flex items-center space-x-4">
-                    <Button layout="link" size="icon" aria-label="Edit">
-                      <EditIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                    <Button layout="link" size="icon" aria-label="Delete">
-                      <TrashIcon className="w-5 h-5" aria-hidden="true" />
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-        <TableFooter>
-          <Pagination
-            totalResults={totalResults}
-            resultsPerPage={resultsPerPage}
-            onChange={onPageChangeTable2}
-            label="Table navigation"
-          />
-        </TableFooter>
-      </TableContainer>
+
     </>
   )
 }
