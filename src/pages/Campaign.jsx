@@ -93,7 +93,7 @@ function Tables() {
                 <TableCell>
                   <div className="flex items-center text-sm">
                     <Badge type={user.status}>
-
+                      ●
                     </Badge>
                     <div>
                       <p className="text-gray-600 dark:text-gray-400">{user.name}</p>

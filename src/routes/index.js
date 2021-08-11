@@ -12,6 +12,8 @@ const Page404 = lazy(() => import('../pages/404'))
 const Blank = lazy(() => import('../pages/Blank'))
 const Customer = lazy(() => import('../pages/Customer'))
 const Campaign = lazy(() => import('../pages/Campaign'))
+const AddCampaign = lazy(() => import('../pages/AddCampaign'))
+const AddCustomer = lazy(() => import('../pages/AddCustomer'))
 
 /**
  * ⚠ These are internal routes!
@@ -29,28 +31,12 @@ const routes = [
     component: Dashboard, // view rendered
   },
   {
-    path: '/forms',
-    component: Forms,
+    path: '/add-campaign',
+    component: AddCampaign,
   },
   {
-    path: '/cards',
-    component: Cards,
-  },
-  {
-    path: '/charts',
-    component: Charts,
-  },
-  {
-    path: '/buttons',
-    component: Buttons,
-  },
-  {
-    path: '/modals',
-    component: Modals,
-  },
-  {
-    path: '/tables',
-    component: Tables,
+    path: '/add-customer',
+    component: AddCustomer,
   },
   {
     path: '/campaign',
@@ -63,10 +49,6 @@ const routes = [
   {
     path: '/404',
     component: Page404,
-  },
-  {
-    path: '/blank',
-    component: Blank,
   },
 ]
 

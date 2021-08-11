@@ -12,14 +12,32 @@ const routes = [
     name: 'Dashboard', // name that appear in Sidebar
   },
   {
-    path: '/app/campaign',
     icon: 'FormsIcon',
     name: 'Campaign',
+    routes: [
+      {
+        path: '/app/campaign',
+        name: 'All Campaign',
+      },      
+      {
+        path: '/app/add-campaign',
+        name: 'Create Campaign',
+      },      
+    ]
   },
   {
-    path: '/app/customer',
     icon: 'PeopleIcon',
     name: 'Customers',
+    routes: [
+      {
+        path: '/app/customer',
+        name: 'All Customers',
+      },      
+      {
+        path: '/app/add-customer',
+        name: 'Add Customer',
+      },      
+    ]
   }
 ]
 
