@@ -1,5 +1,5 @@
-import { CreateCustomerPayload } from 'src/core/domains/customer/entity/CreateCustomerPayload'
-import { CustomerPayload } from 'src/core/domains/customer/entity/CustomerPayload'
+import { CreateCustomerPayload } from 'src/core/domains/customer/entity/types/CreateCustomerPayload'
+import { CustomerPayload } from 'src/core/domains/customer/entity/types/CustomerPayload'
 import axiosInstance from './index'
 
 

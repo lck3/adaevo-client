@@ -4,7 +4,7 @@ import PageTitle from '../../components/Typography/PageTitle'
 import SectionTitle from '../../components/Typography/SectionTitle'
 import response from '../../utils/demo/tableData'
 import { getCustomerRequest } from 'src/infrastructure/api/customerRequests'
-import {CustomerPayload} from 'src/core/domains/customer/entity/CustomerPayload'
+import {CustomerPayload} from 'src/core/domains/customer/entity/types/CustomerPayload'
 const {
   Table,
   TableHeader,

@@ -4,7 +4,7 @@ import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
 import { MdArrowBack } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateCustomerPayload } from "src/core/domains/customer/entity/CreateCustomerPayload";
+import { CreateCustomerPayload } from "src/core/domains/customer/entity/types/CreateCustomerPayload";
 import { addNewCustomerRequest } from "src/infrastructure/api/customerRequests";
 const {
   Input,

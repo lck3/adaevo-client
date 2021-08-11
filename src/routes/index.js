@@ -4,8 +4,8 @@ import { lazy } from 'react'
 const Dashboard = lazy(() => import('../pages/Dashboard'))
 const Page404 = lazy(() => import('../pages/404'))
 const Customer = lazy(() => import('../pages/customers/Customer'))
-const Campaign = lazy(() => import('../pages/Campaign'))
-const AddCampaign = lazy(() => import('../pages/AddCampaign'))
+const Campaign = lazy(() => import('../pages/campaigns/Campaign'))
+const AddCampaign = lazy(() => import('../pages/campaigns/AddCampaign'))
 const AddCustomer = lazy(() => import('../pages/customers/AddCustomer'))
 
 /**
