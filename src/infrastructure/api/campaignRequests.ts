@@ -1,4 +1,5 @@
 import { CreateCampaignPayload } from 'src/core/domains/campaign/entity/types/CreateCampaignPayload'
+import { ListCampaignsPayload } from 'src/core/domains/campaign/entity/types/ListCampaignPayload'
 import axiosInstance from './index'
 
 
@@ -7,7 +8,7 @@ export const addNewCampaignRequest = async (campaign: CreateCampaignPayload) => 
   return data
 }
 
-// export const getCustomerRequest = async () : Promise<CustomerPayload[]> => {
-//   const {data} = await axiosInstance.get("/customers")
-//   return data
-// } 
+export const getCampaignRequest = async () : Promise<ListCampaignsPayload[]> => {
+  const {data} = await axiosInstance.get("/campaigns")
+  return data
+} 
