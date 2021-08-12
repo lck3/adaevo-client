@@ -1,29 +1,49 @@
-import React from "react";
+import React, { useState } from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
 import { MdArrowBack } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { CreateCustomerPayload } from "src/core/domains/customer/entity/types/CreateCustomerPayload";
-import { addNewCustomerRequest } from "src/infrastructure/api/customerRequests";
+import { editCustomerRequest, getOneCustomerRequest } from "src/infrastructure/api/customerRequests";
+import {
+  useParams
+} from "react-router-dom";
+import { useEffect } from "react";
+import { CustomerPayload } from "src/core/domains/customer/entity/types/CustomerPayload";
+import { EditCustomerPayload } from "src/core/domains/customer/entity/types/EditCustomerPayload";
 const {
   Input,
-  HelperText,
   Label,
-  Select,
   Textarea,
   Button,
 } = require("@windmill/react-ui");
 
-function AddCustomer() {
+function EditCustomerPage() {
+
+  const customerId = useParams<{id: string }>().id
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<CreateCustomerPayload>();
-  const onSubmit: SubmitHandler<CreateCustomerPayload> = (data) => {
-    const send = addNewCustomerRequest(data)
+    setValue
+  } = useForm<EditCustomerPayload>();
+
+  useEffect(() => {
+    if (!customerId) return
+    getOneCustomerRequest(parseInt(customerId))
+    .then(customer => {
+      Object.keys(customer)
+      .forEach((key) => {
+        // @ts-ignore
+        setValue(key, customer[key])
+      })
+    })
+  }, [customerId, setValue])
+
+
+
+  const onSubmit: SubmitHandler<EditCustomerPayload> = (data) => {
+    if (!customerId) return
+    const send = editCustomerRequest(parseInt(customerId), data)
     console.log(send)
   };
 
@@ -111,14 +131,12 @@ function AddCustomer() {
                 <span>Email</span>
                 <Input 
                   {...register("email")}
-                  
                   className="mt-1" placeholder="email@email.com" />
               </Label>
               <Label>
                 <span>Mobile</span>
                 <Input 
                   {...register("mobile")}
-                
                 className="mt-1" placeholder="XXX-XXX-XDXX" />
               </Label>
             </div>
@@ -126,7 +144,7 @@ function AddCustomer() {
         </div>
 
         <div className="px-4 py-3 mb-8">
-          <Button type="submit">Save new customer</Button>
+          <Button type="submit">Update customer</Button>
           <button
             type="reset"
             className="ml-5 bg-transparent text-red-700 hover:text-black py-2 px-4 hover:border-red-500 rounded"
@@ -140,4 +158,4 @@ function AddCustomer() {
   );
 }
 
-export default AddCustomer;
+export default EditCustomerPage;

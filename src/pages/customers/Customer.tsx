@@ -7,6 +7,9 @@ import { getCustomerRequest, removeCustomerRequest } from 'src/infrastructure/ap
 import {CustomerPayload} from 'src/core/domains/customer/entity/types/CustomerPayload'
 import { SmallButton } from 'src/components/Buttons'
 import { MdDelete } from 'react-icons/md'
+import {
+  Link
+} from "react-router-dom";
 const {
   Table,
   TableHeader,
@@ -21,7 +24,7 @@ const {
 
 // make a copy of the data, for the second table
 
-function CustomerTable() {
+function ListCustomerPage() {
 
   // setup data for every table
   const [customerTable, setCustomerTable] = useState<CustomerPayload[]>([])
@@ -67,7 +70,11 @@ function CustomerTable() {
                   <TableCell>
                     <div className="flex items-center text-sm">
                       <div>
-                        <p className="font-semibold">{customer.businessName}</p>
+                        <p className="font-semibold">
+                          <Link to={`/app/edit-customer/${customer.id}`}>
+                          {customer.businessName}
+                          </Link>
+                        </p>
                       </div>
                     </div>
                   </TableCell>
@@ -104,4 +111,4 @@ function CustomerTable() {
   )
 }
 
-export default CustomerTable
+export default ListCustomerPage

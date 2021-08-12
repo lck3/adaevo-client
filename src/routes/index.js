@@ -7,6 +7,7 @@ const Customer = lazy(() => import('../pages/customers/Customer'))
 const Campaign = lazy(() => import('../pages/campaigns/Campaign'))
 const AddCampaign = lazy(() => import('../pages/campaigns/AddCampaign'))
 const AddCustomer = lazy(() => import('../pages/customers/AddCustomer'))
+const EditCustomer = lazy(() => import('../pages/customers/EditCustomer'))
 
 /**
  * ⚠ These are internal routes!
@@ -30,6 +31,10 @@ const routes = [
   {
     path: '/add-customer',
     component: AddCustomer,
+  },
+  {
+    path: '/edit-customer/:id',
+    component: EditCustomer,
   },
   {
     path: '/campaign',
