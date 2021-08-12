@@ -15,12 +15,12 @@ export const getCampaignRequest = async () : Promise<ListCampaignsPayload[]> => 
 } 
 
 export const getOneCampaignRequest = async (id: number) : Promise<ListCampaignsPayload> => {
-  const {data} = await axiosInstance.get("/campaigns/" + id)
+  const {data} = await axiosInstance.get("/campaigns" + id)
   return data
 } 
 
 
-export const updateCampaignRequest = async (id: number, campaign: EditCampaignsPayload) : Promise<ListCampaignsPayload> => {
+export const editCampaignRequest = async (id: number, campaign: EditCampaignsPayload) : Promise<ListCampaignsPayload> => {
   const {data} = await axiosInstance.patch("/campaigns/" + id, campaign)
   return data
 } 

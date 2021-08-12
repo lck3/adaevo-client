@@ -17,11 +17,11 @@ const routes = [
     routes: [
       {
         path: '/app/campaign',
-        name: 'All Campaign',
+        name: 'All Campaigns',
       },      
       {
         path: '/app/add-campaign',
-        name: 'Create Campaign',
+        name: 'Create a Campaign',
       },      
     ]
   },
@@ -35,7 +35,7 @@ const routes = [
       },      
       {
         path: '/app/add-customer',
-        name: 'Add Customer',
+        name: 'Add a Customer',
       },      
     ]
   }

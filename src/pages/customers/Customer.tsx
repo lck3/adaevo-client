@@ -71,7 +71,7 @@ function ListCustomerPage() {
                     <div className="flex items-center text-sm">
                       <div>
                         <p className="font-semibold">
-                          <Link to={`/app/edit-customer/${customer.id}`}>
+                          <Link to={`/app/update-customer/${customer.id}`}>
                           {customer.businessName}
                           </Link>
                         </p>

@@ -7,6 +7,7 @@ import response from "../../utils/demo/tableData";
 import { ListCampaignsPayload } from "src/core/domains/campaign/entity/types/ListCampaignPayload";
 import { getCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import {SmallButton} from '../../components/Buttons'
+import { Link } from "react-router-dom";
 const {
   Table,
   TableHeader,
@@ -57,12 +58,12 @@ function ShowCampaigns() {
                 <TableCell>
                   <div className="flex items-center text-sm">
                     <Badge type="primary">●</Badge>
-                    <div>
+                    <Link to={`/app/update-campaign/${campaign.id}`}>
                       <p className="font-semibold">{campaign.title}</p>
                       <p className="text-xs text-gray-600 dark:text-gray-400">
                         {campaign.customer}
                       </p>
-                    </div>
+                    </Link>
                   </div>
                 </TableCell>
                 <TableCell>

@@ -6,6 +6,7 @@ const Page404 = lazy(() => import('../pages/404'))
 const Customer = lazy(() => import('../pages/customers/Customer'))
 const Campaign = lazy(() => import('../pages/campaigns/Campaign'))
 const AddCampaign = lazy(() => import('../pages/campaigns/AddCampaign'))
+const UpdateCampaign = lazy(() => import('../pages/campaigns/UpdateCampaign'))
 const AddCustomer = lazy(() => import('../pages/customers/AddCustomer'))
 const EditCustomer = lazy(() => import('../pages/customers/EditCustomer'))
 
@@ -29,16 +30,20 @@ const routes = [
     component: AddCampaign,
   },
   {
+    path: '/campaign',
+    component: Campaign,
+  },
+  {
+    path: '/update-campaign/:id',
+    component: UpdateCampaign,
+  },
+  {
     path: '/add-customer',
     component: AddCustomer,
   },
   {
-    path: '/edit-customer/:id',
+    path: '/update-customer/:id',
     component: EditCustomer,
-  },
-  {
-    path: '/campaign',
-    component: Campaign,
   },
   {
     path: '/customer',

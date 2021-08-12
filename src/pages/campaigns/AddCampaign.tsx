@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import CTA from "../../components/CTA";
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { MailIcon } from "../../icons";
 import { CreateCampaignPayload } from "src/core/domains/campaign/entity/types/CreateCampaignPayload";
 import { addNewCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import { AddLandingPagePayload } from "src/core/domains/landingpage/entity/types/AddLandingPagePayload";
@@ -12,14 +10,13 @@ import { getCustomerRequest } from "src/infrastructure/api/customerRequests";
 import { CustomerPayload } from "src/core/domains/customer/entity/types/CustomerPayload";
 const {
   Input,
-  HelperText,
   Label,
   Select,
-  Textarea,
   Button,
 } = require("@windmill/react-ui");
 
 function AddCampaignForm() {
+
   const [customerDropDownData, setCustomerDropDownData] = useState<CustomerPayload[]>([])
   const {
     register: registerCampaignFields,
@@ -95,7 +92,7 @@ function AddCampaignForm() {
           </Label>
         </div>
       </form>
-      <SectionTitle>Add Landing Pages.</SectionTitle>
+      {/* <SectionTitle>Add Landing Pages.</SectionTitle>
       <form onSubmit={handleLandingPageSubmit(onAddLandingPageSubmit)}>
         <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <Label>
@@ -111,7 +108,7 @@ function AddCampaignForm() {
             <Button type="submit">Add</Button>
           </Label>
         </div>
-      </form>
+      </form> */}
     </>
   );
 }
