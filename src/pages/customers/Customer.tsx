@@ -3,8 +3,10 @@ import React, { useState, useEffect } from 'react'
 import PageTitle from '../../components/Typography/PageTitle'
 import SectionTitle from '../../components/Typography/SectionTitle'
 import response from '../../utils/demo/tableData'
-import { getCustomerRequest } from 'src/infrastructure/api/customerRequests'
+import { getCustomerRequest, removeCustomerRequest } from 'src/infrastructure/api/customerRequests'
 import {CustomerPayload} from 'src/core/domains/customer/entity/types/CustomerPayload'
+import { SmallButton } from 'src/components/Buttons'
+import { MdDelete } from 'react-icons/md'
 const {
   Table,
   TableHeader,
@@ -19,7 +21,7 @@ const {
 
 // make a copy of the data, for the second table
 
-function Tables() {
+function CustomerTable() {
 
   // setup data for every table
   const [customerTable, setCustomerTable] = useState<CustomerPayload[]>([])
@@ -28,10 +30,6 @@ function Tables() {
   const resultsPerPage = 10
   const totalResults = response.length
 
-
-
-  // on page change, load new sliced data
-  // here you would make another server request for new data
   useEffect(() => {
     
     getCustomerRequest()
@@ -41,7 +39,10 @@ function Tables() {
 
   }, [])
 
-
+  const handleDeleteCustomer = (id: number) => {
+    removeCustomerRequest(id)
+    .then(()=> alert('customer has been deleted'))
+  }
 
   return (
     <>
@@ -78,7 +79,13 @@ function Tables() {
 
                   </TableCell>
                   <TableCell>
-                    <span className="text-sm"></span>
+                    <span className="text-sm">
+                      <SmallButton onClick={() => handleDeleteCustomer(customer.id)}>
+                        <MdDelete className="inline" />
+                          &nbsp;
+                          Delete
+                        </SmallButton>
+                    </span>
                   </TableCell>
                 </TableRow>
               ))}
@@ -97,4 +104,4 @@ function Tables() {
   )
 }
 
-export default Tables
+export default CustomerTable

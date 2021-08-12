@@ -12,3 +12,9 @@ export const getCustomerRequest = async () : Promise<CustomerPayload[]> => {
   const {data} = await axiosInstance.get("/customers")
   return data
 } 
+
+export const removeCustomerRequest = async (id: number) : Promise<CustomerPayload[]> => {
+  const {data} = await axiosInstance.delete("/customers/" + id)
+  return data
+} 
+
