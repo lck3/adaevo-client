@@ -1,4 +1,4 @@
-export default class Campaign {
+export default class LandingPage {
   constructor (
     private id: number,
     private url: string,

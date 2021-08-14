@@ -22,10 +22,6 @@ function AddCampaignForm() {
     register: registerCampaignFields,
     handleSubmit: handleCampaignSubmit,
   } = useForm<CreateCampaignPayload>();
-  const {
-    register: registerLandingPageFields,
-    handleSubmit: handleLandingPageSubmit,
-  } = useForm<AddLandingPagePayload>();
 
   useEffect(() => {
     getCustomerRequest()
@@ -37,21 +33,11 @@ function AddCampaignForm() {
   const onAddCampaignFormSubmit: SubmitHandler<CreateCampaignPayload> = (
     data
   ) => {
+    debugger
     const send = addNewCampaignRequest(data);
     console.log(send);
   };
 
-  const onAddLandingPageSubmit: SubmitHandler<CreateCampaignPayload> = (
-    data
-  ) => {
-    const send = addNewCampaignRequest(data);
-    console.log(send);
-  };
-
-  // const onUpdateCampaignFormSubmit: SubmitHandler<CreateCampaignPayload> = (data) => {
-  //   const send = addNewCampaignRequest(data);
-  //   console.log(send);
-  // };
 
   return (
     <>

@@ -1,30 +1,20 @@
-import { CreateCampaignPayload } from 'src/core/domains/campaign/entity/types/CreateCampaignPayload'
-import { EditCampaignsPayload } from 'src/core/domains/campaign/entity/types/EditCampaignPayload'
-import { ListCampaignsPayload } from 'src/core/domains/campaign/entity/types/ListCampaignPayload'
+import { AddLandingPagePayload } from 'src/core/domains/landingpage/entity/types/AddLandingPagePayload'
+import { EditLandingPagePayload } from 'src/core/domains/landingpage/entity/types/EditLandingPagePayload'
+import LandingPage from 'src/core/domains/landingpage/LandingPage'
 import axiosInstance from './index'
 
 
-export const addNewCampaignRequest = async (campaign: CreateCampaignPayload) => {
-  const {data} = await axiosInstance.post('/campaigns', campaign)
+export const addNewLandingPageRequest = async (campaign: AddLandingPagePayload) : Promise<LandingPage>=> {
+  const {data} = await axiosInstance.post(`/campaigns/${campaign.campaignId}/landing-pages`, {url: campaign.url})
   return data
 }
 
-export const getCampaignRequest = async () : Promise<ListCampaignsPayload[]> => {
-  const {data} = await axiosInstance.get("/campaigns")
+export const updateLandingPageStatusRequest = async (id: number, campaign: EditLandingPagePayload) : Promise<LandingPage> => {
+  const {data} = await axiosInstance.patch(`/campaigns/${campaign.campaignId}/landing-pages/${id}`, {status: campaign.status})
+
   return data
 } 
-
-export const getOneCampaignRequest = async (id: number) : Promise<ListCampaignsPayload> => {
-  const {data} = await axiosInstance.get("/campaigns" + id)
-  return data
-} 
-
-
-export const editCampaignRequest = async (id: number, campaign: EditCampaignsPayload) : Promise<ListCampaignsPayload> => {
-  const {data} = await axiosInstance.patch("/campaigns/" + id, campaign)
-  return data
-} 
-export const removeCampaignRequest = async (id: number) : Promise<ListCampaignsPayload> => {
-  const {data} = await axiosInstance.delete("/campaigns/" + id)
+export const removeLandingPageRequest = async (campaignId: number, id: number) : Promise<LandingPage> => {
+  const {data} = await axiosInstance.delete(`/campaigns/${campaignId}/landing-pages/${id}`)
   return data
 } 
