@@ -61,11 +61,13 @@ function ShowCampaigns() {
                     </Link>
                   </div>
                 </TableCell>
+                <TableCell>{campaign._count.leads}</TableCell>
+
                 <TableCell>
                   <CopyToClipboard
                     text={
                       // @todo use env
-                      `http://localhost:3333/api/v1/campaigns/${campaign.id}/leads`
+                      `${process.env.REACT_APP_API_SERVER}/api/v1/campaigns/${campaign.id}/leads`
                     }
                   >
                     <SmallButton>copy api url</SmallButton>
