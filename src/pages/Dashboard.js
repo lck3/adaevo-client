@@ -1,20 +1,25 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from "react";
 
-import ChartCard from '../components/Chart/ChartCard'
-import { Doughnut, Line } from 'react-chartjs-2'
-import ChartLegend from '../components/Chart/ChartLegend'
-import PageTitle from '../components/Typography/PageTitle'
-import {ActiveCampaignStats} from '../components/Widgets/ActiveCampaignStats'
+import ChartCard from "../components/Chart/ChartCard";
+import { Doughnut, Line } from "react-chartjs-2";
+import ChartLegend from "../components/Chart/ChartLegend";
+import PageTitle from "../components/Typography/PageTitle";
+import { ActiveCampaignStats } from "../components/Widgets/ActiveCampaignStats";
+import styled from "styled-components";
 
 import {
   doughnutOptions,
   lineOptions,
   doughnutLegends,
   lineLegends,
-} from '../utils/demo/chartsData'
+} from "../utils/demo/chartsData";
+
+const Box = styled.table`
+  height: 300px;
+  background: #ddd;
+`;
 
 function Dashboard() {
-
   function initMap() {
     // eslint-disable-next-line no-undef
     new google.maps.Map(document.getElementById("google-map"), {
@@ -23,8 +28,8 @@ function Dashboard() {
     });
   }
   useEffect(() => {
-    initMap()
-  }, [])
+    initMap();
+  }, []);
 
   return (
     <>
@@ -32,26 +37,23 @@ function Dashboard() {
 
       {/* <!-- Cards --> */}
       <div className="grid gap-6 mb-8 md:grid-cols-2">
-        <div id="google-map" className="relative"></div>
+        <Box id="google-map" className="relative"></Box>
 
-        <div className="relative">
-          <ActiveCampaignStats />
-        </div>
-        
+        <Box className="relative">
+          <ActiveCampaignStats term="Stats"/>
+        </Box>
       </div>
       <div className="grid gap-6 mb-8 md:grid-cols-2">
-        <ChartCard title="Revenue">
-          <Doughnut {...doughnutOptions} />
-          <ChartLegend legends={doughnutLegends} />
-        </ChartCard>
+        <Box className="relative">
+          <ActiveCampaignStats term="Rates" />
+        </Box>
 
-        <ChartCard title="Traffic">
-          <Line {...lineOptions} />
-          <ChartLegend legends={lineLegends} />
-        </ChartCard>
+        <Box className="relative">
+          <ActiveCampaignStats term="Revenue" />
+        </Box>
       </div>
     </>
-  )
+  );
 }
 
-export default Dashboard
+export default Dashboard;

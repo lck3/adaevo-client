@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import { ListCampaignsPayload } from "../../core/domains/campaign/entity/types/ListCampaignPayload";
 import { getCampaignRequest } from "../../infrastructure/api/campaignRequests";
-import styled from "styled-components"
-
 const {
   TableHeader,
   TableCell,
@@ -13,11 +11,8 @@ const {
 // make a copy of the data, for the second table
 
 
-const Box = styled.table`
-  height: 300px;
-`
 
-export function ActiveCampaignStats () {
+export function ActiveCampaignStats ({term}: any) {
   const [campaignTable, setCampaignTable] = useState<ListCampaignsPayload[]>(
     []
   );
@@ -28,11 +23,11 @@ export function ActiveCampaignStats () {
     });
   }, []);
   return (
-    <Box className="h-50" > 
+    <table className="h-50" > 
       <TableHeader>
             <tr>
               <TableCell className="w-3/12">Link</TableCell>
-              <TableCell className="w-1/12">Stats</TableCell>
+              <TableCell className="w-1/12">{term}</TableCell>
             </tr>
           </TableHeader>
     <TableBody>
@@ -54,6 +49,6 @@ export function ActiveCampaignStats () {
     ))}
     
   </TableBody>
-  </Box>
+  </table>
   )
 }
