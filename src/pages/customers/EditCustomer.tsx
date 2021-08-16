@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
@@ -9,7 +9,6 @@ import {
   useParams
 } from "react-router-dom";
 import { useEffect } from "react";
-import { CustomerPayload } from "src/core/domains/customer/entity/types/CustomerPayload";
 import { EditCustomerPayload } from "src/core/domains/customer/entity/types/EditCustomerPayload";
 const {
   Input,

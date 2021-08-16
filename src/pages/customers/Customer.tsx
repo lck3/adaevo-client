@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 
 import PageTitle from '../../components/Typography/PageTitle'
 import SectionTitle from '../../components/Typography/SectionTitle'
-import response from '../../utils/demo/tableData'
 import { getCustomerRequest, removeCustomerRequest } from 'src/infrastructure/api/customerRequests'
 import {CustomerPayload} from 'src/core/domains/customer/entity/types/CustomerPayload'
 import { SmallButton } from 'src/components/Buttons'
@@ -18,7 +17,6 @@ const {
   TableRow,
   TableFooter,
   TableContainer,
-  Pagination,
 } = require('@windmill/react-ui')
 
 
@@ -30,8 +28,6 @@ function ListCustomerPage() {
   const [customerTable, setCustomerTable] = useState<CustomerPayload[]>([])
 
   // pagination setup
-  const resultsPerPage = 10
-  const totalResults = response.length
 
   useEffect(() => {
     

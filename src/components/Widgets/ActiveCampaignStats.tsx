@@ -5,7 +5,6 @@ import { getCampaignRequest } from "../../infrastructure/api/campaignRequests";
 import styled from "styled-components"
 
 const {
-  Table,
   TableHeader,
   TableCell,
   TableBody,

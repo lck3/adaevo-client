@@ -6,6 +6,7 @@ export const SidebarContext = React.createContext()
 export const SidebarProvider = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function toggleSidebar() {
     setIsSidebarOpen(!isSidebarOpen)
   }
@@ -20,7 +21,7 @@ export const SidebarProvider = ({ children }) => {
       toggleSidebar,
       closeSidebar,
     }),
-    [isSidebarOpen]
+    [isSidebarOpen, toggleSidebar]
   )
 
   return <SidebarContext.Provider value={value}>{children}</SidebarContext.Provider>

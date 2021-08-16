@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 
 import ChartCard from '../components/Chart/ChartCard'
 import { Doughnut, Line } from 'react-chartjs-2'
 import ChartLegend from '../components/Chart/ChartLegend'
 import PageTitle from '../components/Typography/PageTitle'
 import {ActiveCampaignStats} from '../components/Widgets/ActiveCampaignStats'
-import response from '../utils/demo/tableData'
 
 import {
   doughnutOptions,
@@ -18,7 +17,7 @@ function Dashboard() {
 
   function initMap() {
     // eslint-disable-next-line no-undef
-    let map = new google.maps.Map(document.getElementById("google-map"), {
+    new google.maps.Map(document.getElementById("google-map"), {
       center: { lat: -34.397, lng: 150.644 },
       zoom: 8,
     });

@@ -8,9 +8,7 @@ import { CreateCustomerPayload } from "src/core/domains/customer/entity/types/Cr
 import { addNewCustomerRequest } from "src/infrastructure/api/customerRequests";
 const {
   Input,
-  HelperText,
   Label,
-  Select,
   Textarea,
   Button,
 } = require("@windmill/react-ui");
@@ -19,8 +17,6 @@ function AddCustomer() {
   const {
     register,
     handleSubmit,
-    watch,
-    formState: { errors },
   } = useForm<CreateCustomerPayload>();
   const onSubmit: SubmitHandler<CreateCustomerPayload> = (data) => {
     const send = addNewCustomerRequest(data)

@@ -25,7 +25,6 @@ const {
   TableContainer,
   TableBody,
   TableRow,
-  Select,
 } = require("@windmill/react-ui");
 function UpdateCampaignPage() {
   const [campaignData, setCampaignData] = useState<EditCampaignsPayload>(

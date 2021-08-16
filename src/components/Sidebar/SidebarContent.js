@@ -3,7 +3,6 @@ import routes from '../../routes/sidebar'
 import { NavLink, Route } from 'react-router-dom'
 import * as Icons from '../../icons'
 import SidebarSubmenu from './SidebarSubmenu'
-import { Button } from '@windmill/react-ui'
 
 function Icon({ icon, ...props }) {
   const Icon = Icons[icon]
@@ -13,10 +12,10 @@ function Icon({ icon, ...props }) {
 function SidebarContent() {
   return (
     <div className="py-4 text-gray-500 dark:text-gray-400">
-      <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="#">
+      <a className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200" href="/">
         Adaevo
       </a>
-      <ul className="mt-6">
+    <ul className="mt-6">
         {routes.map((route) =>
           route.routes ? (
             <SidebarSubmenu route={route} key={route.name} />
