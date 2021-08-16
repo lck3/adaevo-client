@@ -65,6 +65,7 @@ function AddCampaignForm() {
           <Label className="mt-4">
             <span>Select a customer for this campaign</span>
             <Select className="mt-1" {...registerCampaignFields("customerId")}>
+              <option></option>
               {
                 customerDropDownData.length > 0 && customerDropDownData.map(data => (
                   <option value={data.id}>{data.businessName}, {data.country}</option>
