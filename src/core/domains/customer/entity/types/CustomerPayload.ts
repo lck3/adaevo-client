@@ -12,4 +12,5 @@ export type CustomerPayload = {
   contactName: string;
   email: string;
   mobile: string;
+  apiUrl: string;
 };

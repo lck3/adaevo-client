@@ -11,4 +11,5 @@ export type EditCustomerPayload = {
   contactName: string;
   email: string;
   mobile: string;
+  apiUrl: string;
 };

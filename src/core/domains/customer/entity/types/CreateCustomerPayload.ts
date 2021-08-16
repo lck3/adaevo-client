@@ -11,4 +11,5 @@ export type CreateCustomerPayload = {
   contactName: string;
   email: string;
   mobile: string;
+  apiUrl: string;
 };

@@ -6,8 +6,9 @@ import SectionTitle from "../../components/Typography/SectionTitle";
 import response from "../../utils/demo/tableData";
 import { ListCampaignsPayload } from "src/core/domains/campaign/entity/types/ListCampaignPayload";
 import { getCampaignRequest } from "src/infrastructure/api/campaignRequests";
-import {SmallButton} from '../../components/Buttons'
+import { SmallButton } from "../../components/Buttons";
 import { Link } from "react-router-dom";
+import CopyToClipboard from "react-copy-to-clipboard";
 const {
   Table,
   TableHeader,
@@ -41,15 +42,10 @@ function ShowCampaigns() {
         <Table>
           <TableHeader>
             <tr>
-              <TableCell>Page</TableCell>
+              <TableCell className="w-4/12">Page</TableCell>
+              <TableCell className="w-1/12">Leads</TableCell>
+              <TableCell className="w-2/12"></TableCell>
               <TableCell></TableCell>
-              <TableCell>Leads</TableCell>
-              <TableCell>Click</TableCell>
-              <TableCell>Reject</TableCell>
-              <TableCell>Validat</TableCell>
-              <TableCell>CPL</TableCell>
-              <TableCell>Rev</TableCell>
-              <TableCell>Margin</TableCell>
             </tr>
           </TableHeader>
           <TableBody>
@@ -57,39 +53,26 @@ function ShowCampaigns() {
               <TableRow key={i}>
                 <TableCell>
                   <div className="flex items-center text-sm">
-                    <Badge type="primary">●</Badge>
                     <Link to={`/app/update-campaign/${campaign.id}`}>
                       <p className="font-semibold">{campaign.title}</p>
                       <p className="text-xs text-gray-600 dark:text-gray-400">
-                        {campaign.customer}
+                        {campaign.tags}
                       </p>
                     </Link>
                   </div>
                 </TableCell>
                 <TableCell>
-                  <SmallButton >copy api url</SmallButton>
+                  <CopyToClipboard
+                    text={
+                      // @todo use env
+                      `http://localhost:3333/api/v1/campaigns/${campaign.id}/leads`
+                    }
+                  >
+                    <SmallButton>copy api url</SmallButton>
+                  </CopyToClipboard>
                 </TableCell>
-                <TableCell>
-                  <span className="text-sm">$ 500</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">-</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">-%</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">-</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">-</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">-</span>
-                </TableCell>
-                <TableCell>
-                  <span className="text-sm">-</span>
-                </TableCell>
+
+                <TableCell></TableCell>
               </TableRow>
             ))}
           </TableBody>

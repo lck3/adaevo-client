@@ -117,6 +117,23 @@ function EditCustomerPage() {
             </div>
           </div>
         </div>
+        
+        <SectionTitle>Data Collection</SectionTitle>
+        <div className="flex flex-row">
+          <div className="w-10/12">
+            <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
+              <Label>
+                <span>API Url</span>
+                <Input 
+                  {...register("apiUrl")}
+                  className="mt-1" placeholder="eg https://abc.com" />
+              </Label>
+           
+            </div>
+          </div>
+        </div>
+
+
         <SectionTitle>Contact Information</SectionTitle>
         <div className="flex flex-row">
           <div className="w-10/12">

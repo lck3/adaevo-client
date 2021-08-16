@@ -3,4 +3,12 @@ export type EditLandingPagePayload = {
   url?: string,
   status?: string,
   campaignId: number,
+  stats?: {
+    stats: {
+      screenPageViews: number,
+      engagementRate: number,
+      sessions: number,
+      engagedSessions: number,
+    }
+  },
 }

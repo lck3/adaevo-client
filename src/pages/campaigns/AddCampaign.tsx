@@ -78,23 +78,6 @@ function AddCampaignForm() {
           </Label>
         </div>
       </form>
-      {/* <SectionTitle>Add Landing Pages.</SectionTitle>
-      <form onSubmit={handleLandingPageSubmit(onAddLandingPageSubmit)}>
-        <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
-          <Label>
-            <span>URL</span>
-            <Input
-              {...registerLandingPageFields("url")}
-              className="mt-1"
-              placeholder="eg https://linktolandingpage.com/landingpage.html"
-            />
-          </Label>
-
-          <Label className="mt-4">
-            <Button type="submit">Add</Button>
-          </Label>
-        </div>
-      </form> */}
     </>
   );
 }
