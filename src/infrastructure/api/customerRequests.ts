@@ -1,7 +1,7 @@
 import { CreateCustomerPayload } from 'src/core/domains/customer/entity/types/CreateCustomerPayload'
 import { CustomerPayload } from 'src/core/domains/customer/entity/types/CustomerPayload'
 import { EditCustomerPayload } from 'src/core/domains/customer/entity/types/EditCustomerPayload'
-import axiosInstance from './index'
+import axiosInstance from './axiosInstance'
 
 
 export const addNewCustomerRequest = async (customer: CreateCustomerPayload) => {

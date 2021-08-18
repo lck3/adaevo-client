@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
 
-import response from "../../utils/demo/tableData";
 import { ListCampaignsPayload } from "src/core/domains/campaign/entity/types/ListCampaignPayload";
 import { getCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import { SmallButton } from "../../components/Buttons";
@@ -17,8 +16,6 @@ const {
   TableRow,
   TableFooter,
   TableContainer,
-  Badge,
-  Pagination,
 } = require("@windmill/react-ui");
 // make a copy of the data, for the second table
 

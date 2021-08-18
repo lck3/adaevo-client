@@ -4,28 +4,16 @@ import {
   SearchIcon,
   MoonIcon,
   SunIcon,
-  BellIcon,
   MenuIcon,
-  OutlinePersonIcon,
-  OutlineCogIcon,
-  OutlineLogoutIcon,
 } from '../icons'
-import { Avatar, Badge, Input, Dropdown, DropdownItem, WindmillContext } from '@windmill/react-ui'
+import { Input, WindmillContext } from '@windmill/react-ui'
+import { useAuth } from 'src/context/auth-context'
 
 function Header() {
   const { mode, toggleMode } = useContext(WindmillContext)
   const { toggleSidebar } = useContext(SidebarContext)
+  const {logout} = useAuth()
 
-  const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false)
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false)
-
-  function handleNotificationsClick() {
-    setIsNotificationsMenuOpen(!isNotificationsMenuOpen)
-  }
-
-  function handleProfileClick() {
-    setIsProfileMenuOpen(!isProfileMenuOpen)
-  }
 
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
@@ -68,6 +56,16 @@ function Header() {
               ) : (
                 <MoonIcon className="w-5 h-5" aria-hidden="true" />
               )}
+            </button>
+          </li>
+          <li className="relative">
+            <button
+              className="rounded-full py-1 px-2 text-xs shadow-outline-purple focus:outline-none text-black"
+              onClick={() => logout()}
+              aria-label="Account"
+              aria-haspopup="true"
+            >
+              Logout
             </button>
           </li>
         </ul>

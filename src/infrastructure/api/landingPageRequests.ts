@@ -1,7 +1,7 @@
 import { AddLandingPagePayload } from 'src/core/domains/landingpage/entity/types/AddLandingPagePayload'
 import { EditLandingPagePayload } from 'src/core/domains/landingpage/entity/types/EditLandingPagePayload'
 import LandingPage from 'src/core/domains/landingpage/LandingPage'
-import axiosInstance from './index'
+import axiosInstance from './axiosInstance'
 
 
 export const addNewLandingPageRequest = async (campaign: AddLandingPagePayload) : Promise<LandingPage>=> {

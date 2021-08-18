@@ -1,7 +1,7 @@
 import { CreateCampaignPayload } from 'src/core/domains/campaign/entity/types/CreateCampaignPayload'
 import { EditCampaignsPayload } from 'src/core/domains/campaign/entity/types/EditCampaignPayload'
 import { ListCampaignsPayload } from 'src/core/domains/campaign/entity/types/ListCampaignPayload'
-import axiosInstance from './index'
+import axiosInstance from './axiosInstance'
 
 
 export const addNewCampaignRequest = async (campaign: CreateCampaignPayload) => {

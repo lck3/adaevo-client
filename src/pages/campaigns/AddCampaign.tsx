@@ -33,7 +33,6 @@ function AddCampaignForm() {
   const onAddCampaignFormSubmit: SubmitHandler<CreateCampaignPayload> = (
     data
   ) => {
-    debugger
     const send = addNewCampaignRequest(data);
     console.log(send);
   };
@@ -67,8 +66,8 @@ function AddCampaignForm() {
             <Select className="mt-1" {...registerCampaignFields("customerId")}>
               <option></option>
               {
-                customerDropDownData.length > 0 && customerDropDownData.map(data => (
-                  <option value={data.id}>{data.businessName}, {data.country}</option>
+                customerDropDownData.length > 0 && customerDropDownData.map((data, key) => (
+                  <option key={key} value={data.id}>{data.businessName}, {data.country}</option>
                 ))
               }
             </Select>

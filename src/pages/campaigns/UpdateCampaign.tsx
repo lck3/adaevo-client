@@ -146,7 +146,7 @@ function UpdateCampaignPage() {
               <Input
                 {...registerLandingPageFields("url")}
                 className="mt-1 form-input block w-full pl-20"
-                placeholder="eg https://linktolandingpage.com/landingpage.html"
+                placeholder="eg linktolandingpage.com/landingpage.html"
               />
             </div>
           </Label>

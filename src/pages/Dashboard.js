@@ -1,18 +1,9 @@
 import React, { useEffect } from "react";
 
-import ChartCard from "../components/Chart/ChartCard";
-import { Doughnut, Line } from "react-chartjs-2";
-import ChartLegend from "../components/Chart/ChartLegend";
 import PageTitle from "../components/Typography/PageTitle";
 import { ActiveCampaignStats } from "../components/Widgets/ActiveCampaignStats";
 import styled from "styled-components";
 
-import {
-  doughnutOptions,
-  lineOptions,
-  doughnutLegends,
-  lineLegends,
-} from "../utils/demo/chartsData";
 
 const Box = styled.table`
   height: 300px;
