@@ -9,7 +9,6 @@ import {login as userLogin, getUser} from '../infrastructure/api/userAuthRequest
 
 async function bootstrapAppData() {
   let user = null
-  console.log('u called me')
   user = await getUser()
   
   return user
@@ -37,10 +36,19 @@ function AuthProvider(props: any) {
   }, [run])
 
   const login = React.useCallback(
-    (form: any) => userLogin(form).then((user: any) => {
+    (form: any) => userLogin(form)
+      .then(() => {
+        return getUser()
+      })
+      .then((user: any) => {
       console.log(user)
       setData(user)
-    }),
+      })
+      // .catch(err => {
+      //   // @todo use Error Boundary
+      //   console.log(err)
+      // })
+      ,
     [setData],
   )
  

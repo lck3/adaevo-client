@@ -5,9 +5,11 @@ import ImageLight from '../assets/img/login-office.jpeg'
 import ImageDark from '../assets/img/login-office-dark.jpeg'
 import { Label, Input, Button } from '@windmill/react-ui'
 import { login } from 'src/infrastructure/api/userAuthRequests'
+import { useAuth } from 'src/context/auth-context'
 
 function Login() {
   const [userForm, setUserForm] = useState({username: undefined, password: undefined})
+  const {login} = useAuth()
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
       <div className="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800">

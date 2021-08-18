@@ -11,5 +11,5 @@ export const login = async (form: {username: string, password: string}) => {
 export const getUser = async () => {
   if (!getToken()) return null
   const {data} = await axiosInstance.get(`/auth`)
-  return getToken()
+  return data
 }

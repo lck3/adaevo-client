@@ -12,7 +12,7 @@ import { useAuth } from 'src/context/auth-context'
 function Header() {
   const { mode, toggleMode } = useContext(WindmillContext)
   const { toggleSidebar } = useContext(SidebarContext)
-  const {logout} = useAuth()
+  const {logout, user} = useAuth()
 
 
   return (
@@ -42,7 +42,7 @@ function Header() {
         <ul className="flex items-center flex-shrink-0 space-x-6">
           {/* <!-- Notifications menu --> */}
           <li className="relative">
-          <span>Good morning Luca</span>
+          <span>Hello {user.name || `user`}</span>
           </li>
           {/* <!-- Theme toggler --> */}
           <li className="flex">

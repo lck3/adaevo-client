@@ -5,7 +5,7 @@ import { ActiveCampaignStats } from "../components/Widgets/ActiveCampaignStats";
 import styled from "styled-components";
 
 
-const Box = styled.table`
+const Box = styled.div`
   height: 300px;
   background: #ddd;
 `;
