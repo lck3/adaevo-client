@@ -23,7 +23,7 @@ function Layout() {
   return (
     <>
       {
-        isFetching && <ThemedSuspense />
+        isFetching !== 0 && <ThemedSuspense />
       }
     <div
       className={`flex h-screen bg-gray-50 dark:bg-gray-900 ${isSidebarOpen && 'overflow-hidden'}`}

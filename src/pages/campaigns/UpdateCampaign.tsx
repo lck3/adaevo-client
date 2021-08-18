@@ -8,7 +8,7 @@ import {
   updateCampaignRequest,
 } from "src/infrastructure/api/campaignRequests";
 import { AddLandingPagePayload } from "src/core/domains/landingpage/entity/types/AddLandingPagePayload";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { EditCampaignsPayload } from "src/core/domains/campaign/entity/types/EditCampaignPayload";
 import {
   addNewLandingPageRequest,
@@ -17,6 +17,7 @@ import {
 } from "src/infrastructure/api/landingPageRequests";
 import { SmallButton } from "src/components/Buttons";
 import { EditLandingPagePayload } from "src/core/domains/landingpage/entity/types/EditLandingPagePayload";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 const { Input, Label, Button } = require("@windmill/react-ui");
 const {
   Table,
@@ -27,9 +28,7 @@ const {
   TableRow,
 } = require("@windmill/react-ui");
 function UpdateCampaignPage() {
-  const [campaignData, setCampaignData] = useState<EditCampaignsPayload>(
-    {} as EditCampaignsPayload
-  );
+
   const campaignId = useParams<{ id: string }>().id;
 
   const {
@@ -43,17 +42,45 @@ function UpdateCampaignPage() {
     handleSubmit: handleLandingPageSubmit,
   } = useForm<AddLandingPagePayload>();
 
+  const queryClient = useQueryClient()
+  const {go} = useHistory()
+
+  const { data: campaignData, isFetching } = useQuery(
+    ["campaignData", parseInt(campaignId)],
+    () => getOneCampaignRequest(parseInt(campaignId))
+  );
+
+
+
+  // handle landing page updates
+  const landingPageMutation = useMutation((campaign: AddLandingPagePayload) =>
+    addNewLandingPageRequest(campaign),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('campaignData')
+      }
+    }
+  );
+  // handle campaign title, tags update
+  const campaignMutation = useMutation(    
+    // @ts-ignore
+    (campaignId, campaign) => updateCampaignRequest(campaignId, campaign),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('campaignData')
+      }
+    }
+  );
+
+
   useEffect(() => {
     if (!campaignId) return;
-    getOneCampaignRequest(parseInt(campaignId)).then((campaign) => {
-      Object.keys(campaign).forEach((key) => {
-        // @ts-ignore
-        setValue(key, campaign[key]);
-        // @ts-ignore
-        setCampaignData(campaign);
-      });
+    if (!campaignData) return;
+    Object.keys(campaignData).forEach((key) => {
+      // @ts-ignore
+      setValue(key, campaignData[key]);
     });
-  }, [campaignId, setValue]);
+  }, [campaignData, campaignId, setValue]);
 
   /**
    * adds a new landing page to the
@@ -62,11 +89,10 @@ function UpdateCampaignPage() {
   const onAddLandingPageSubmit: SubmitHandler<AddLandingPagePayload> = (
     data
   ) => {
-    const send = addNewLandingPageRequest({
+    landingPageMutation.mutateAsync({
       url: data.url,
       campaignId: parseInt(campaignId),
     });
-    console.log(send);
   };
 
   /**
@@ -75,16 +101,17 @@ function UpdateCampaignPage() {
   const onUpdateCampaignFormSubmit: SubmitHandler<EditCampaignsPayload> = (
     data
   ) => {
-    const send = updateCampaignRequest(parseInt(campaignId), data);
-    console.log(send);
+    // @ts-ignore
+    campaignMutation(parseInt(campaignId), data);
   };
 
   function handleRemoveLandingPage(id: number) {
-    removeLandingPageRequest(parseInt(campaignId), id);
+    removeLandingPageRequest(parseInt(campaignId), id)
+    .then(() => go(0))
   }
 
   function handleStatusUpdate(page: EditLandingPagePayload, status: string) {
-    updateLandingPageStatusRequest(page.id, { ...page, status });
+    updateLandingPageStatusRequest(page.id, { ...page, status }).then(() => go(0))
   }
 
   function parseMetricNumber(metricValue = 0) {
@@ -127,7 +154,9 @@ function UpdateCampaignPage() {
           </Label>
 
           <Label className="mt-4">
-            <Button type="submit">Save</Button>
+            <Button disabled={isFetching} type="submit">
+              Save
+            </Button>
           </Label>
         </div>
       </form>
@@ -152,13 +181,15 @@ function UpdateCampaignPage() {
           </Label>
 
           <Label className="mt-4">
-            <Button type="submit">Add</Button>
+            <Button disable={landingPageMutation.isLoading} type="submit">
+              Add
+            </Button>
           </Label>
         </div>
       </form>
       {
         // @ts-ignore
-        campaignData.landingPages && campaignData.landingPages.length > 0 && (
+        campaignData && campaignData.landingPages && campaignData.landingPages.length > 0 && (
           <TableContainer className="mb-8">
             <Table>
               <TableHeader>
@@ -210,6 +241,7 @@ function UpdateCampaignPage() {
                           </TableCell>
                           <TableCell>
                             <SmallButton
+                              disable={landingPageMutation.isLoading}
                               onClick={() => handleRemoveLandingPage(id)}
                             >
                               remove
