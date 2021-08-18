@@ -7,18 +7,24 @@ import Header from '../components/Header'
 import Main from '../containers/Main'
 import ThemedSuspense from '../components/ThemedSuspense'
 import { SidebarContext } from '../context/SidebarContext'
+import { useIsFetching } from 'react-query'
 
 const Page404 = lazy(() => import('../pages/404'))
 
 function Layout() {
   const { isSidebarOpen, closeSidebar } = useContext(SidebarContext)
   let location = useLocation()
+  const isFetching = useIsFetching()
 
   useEffect(() => {
     closeSidebar()
   }, [closeSidebar, location])
 
   return (
+    <>
+      {
+        isFetching && <ThemedSuspense />
+      }
     <div
       className={`flex h-screen bg-gray-50 dark:bg-gray-900 ${isSidebarOpen && 'overflow-hidden'}`}
     >
@@ -46,6 +52,7 @@ function Layout() {
         </Main>
       </div>
     </div>
+  </>
   )
 }
 

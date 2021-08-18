@@ -2,7 +2,6 @@
 import {jsx} from '@emotion/core'
 
 import * as React from 'react'
-import client from '../infrastructure/api/axiosInstance'
 import {useAsync} from '../utils/hooks'
 import {FullPageSpinner, FullPageErrorFallback} from '../components/lib'
 import {login as userLogin, getUser} from '../infrastructure/api/userAuthRequests'

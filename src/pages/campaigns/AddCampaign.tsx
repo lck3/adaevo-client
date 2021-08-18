@@ -5,9 +5,10 @@ import SectionTitle from "../../components/Typography/SectionTitle";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CreateCampaignPayload } from "src/core/domains/campaign/entity/types/CreateCampaignPayload";
 import { addNewCampaignRequest } from "src/infrastructure/api/campaignRequests";
-import { AddLandingPagePayload } from "src/core/domains/landingpage/entity/types/AddLandingPagePayload";
 import { getCustomerRequest } from "src/infrastructure/api/customerRequests";
 import { CustomerPayload } from "src/core/domains/customer/entity/types/CustomerPayload";
+import { useMutation, useQuery } from "react-query";
+import { useHistory } from "react-router-dom";
 const {
   Input,
   Label,
@@ -17,24 +18,29 @@ const {
 
 function AddCampaignForm() {
 
-  const [customerDropDownData, setCustomerDropDownData] = useState<CustomerPayload[]>([])
+  // const [customerDropDownData, setCustomerDropDownData] = useState<CustomerPayload[]>([])
   const {
     register: registerCampaignFields,
     handleSubmit: handleCampaignSubmit,
   } = useForm<CreateCampaignPayload>();
 
-  useEffect(() => {
-    getCustomerRequest()
-    .then(customerData => {
-      return setCustomerDropDownData(customerData);
-    })
-  }, [])
+  const { data: customerDropDownData, isFetching } = useQuery(
+    'customerDropDownData',
+    getCustomerRequest
+  )
+
+  const {push} = useHistory()
+
+  const mutation = useMutation((newCampaign: CreateCampaignPayload) => addNewCampaignRequest(newCampaign))
+
 
   const onAddCampaignFormSubmit: SubmitHandler<CreateCampaignPayload> = (
     data
   ) => {
-    const send = addNewCampaignRequest(data);
-    console.log(send);
+    mutation.mutateAsync(data)
+    .then(()  => {
+      push('/app/campaign')
+    })
   };
 
 
@@ -63,10 +69,10 @@ function AddCampaignForm() {
 
           <Label className="mt-4">
             <span>Select a customer for this campaign</span>
-            <Select className="mt-1" {...registerCampaignFields("customerId")}>
+            <Select disabled={isFetching} className="mt-1" {...registerCampaignFields("customerId")}>
               <option></option>
               {
-                customerDropDownData.length > 0 && customerDropDownData.map((data, key) => (
+                customerDropDownData && customerDropDownData.length > 0 && customerDropDownData.map((data, key) => (
                   <option key={key} value={data.id}>{data.businessName}, {data.country}</option>
                 ))
               }
@@ -74,7 +80,7 @@ function AddCampaignForm() {
           </Label>
 
           <Label className="mt-4">
-            <Button type="submit">Save</Button>
+            <Button disabled={mutation.isLoading} type="submit">Save</Button>
           </Label>
         </div>
       </form>

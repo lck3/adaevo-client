@@ -8,6 +8,7 @@ import { getCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import { SmallButton } from "../../components/Buttons";
 import { Link } from "react-router-dom";
 import CopyToClipboard from "react-copy-to-clipboard";
+import { useQuery } from "react-query";
 const {
   Table,
   TableHeader,
@@ -20,15 +21,12 @@ const {
 // make a copy of the data, for the second table
 
 function ShowCampaigns() {
-  const [campaignTable, setCampaignTable] = useState<ListCampaignsPayload[]>(
-    []
-  );
 
-  useEffect(() => {
-    getCampaignRequest().then((campaigns) => {
-      setCampaignTable(campaigns);
-    });
-  }, []);
+
+  const { data: campaignTable, isFetching } = useQuery(
+    'campaignTable',
+    getCampaignRequest
+  )
 
   return (
     <>
@@ -46,7 +44,7 @@ function ShowCampaigns() {
             </tr>
           </TableHeader>
           <TableBody>
-            {campaignTable.map((campaign, i) => (
+            {campaignTable && campaignTable.map((campaign, i) => (
               <TableRow key={i}>
                 <TableCell>
                   <div className="flex items-center text-sm">
