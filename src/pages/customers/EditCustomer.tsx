@@ -70,7 +70,7 @@ function EditCustomerPage() {
         <PageTitle>Add a new Customer</PageTitle>
         <SectionTitle>Business Information</SectionTitle>
         <div className="flex flex-row">
-          <div className="w-10/12">
+          <div className="w-full">
             <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <Label>
                 <span>Business Name</span>
@@ -137,7 +137,7 @@ function EditCustomerPage() {
         
         <SectionTitle>Data Collection</SectionTitle>
         <div className="flex flex-row">
-          <div className="w-10/12">
+          <div className="w-full">
             <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <Label>
                 <span>API Url</span>
@@ -153,7 +153,7 @@ function EditCustomerPage() {
 
         <SectionTitle>Contact Information</SectionTitle>
         <div className="flex flex-row">
-          <div className="w-10/12">
+          <div className="w-full">
             <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
               <Label>
                 <span>Contact Name</span>
