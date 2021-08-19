@@ -19,6 +19,7 @@ function App() {
             {/* Place new routes over this */}
             <Route path="/app" component={Layout} />
             <Redirect exact from="/" to="/app/dashboard" />
+            <Redirect exact from="*" to="/app/dashboard" />
           </Switch>
         </Router>
     </>

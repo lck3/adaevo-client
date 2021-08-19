@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 
 import PageTitle from '../../components/Typography/PageTitle'
 import SectionTitle from '../../components/Typography/SectionTitle'
 import { getCustomerRequest, removeCustomerRequest } from 'src/infrastructure/api/customerRequests'
-import {CustomerPayload} from 'src/core/domains/customer/entity/types/CustomerPayload'
 import { SmallButton } from 'src/components/Buttons'
 import { MdDelete } from 'react-icons/md'
 import {
   Link
 } from "react-router-dom";
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 const {
   Table,
   TableHeader,
@@ -24,23 +24,23 @@ const {
 
 function ListCustomerPage() {
 
-  // setup data for every table
-  const [customerTable, setCustomerTable] = useState<CustomerPayload[]>([])
+  const { data: customerTable } = useQuery(
+    'setCustomerTable',
+    getCustomerRequest
+  )
 
-  // pagination setup
+  const queryClient = useQueryClient()
 
-  useEffect(() => {
-    
-    getCustomerRequest()
-    .then(customers => {
-      setCustomerTable(customers)
-    })
 
-  }, [])
+  const mutation = useMutation((id: number) => removeCustomerRequest(id), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('setCustomerTable')
+    }
+  })
+
 
   const handleDeleteCustomer = (id: number) => {
-    removeCustomerRequest(id)
-    .then(()=> alert('customer has been deleted'))
+    mutation.mutate(id)
   }
 
   return (
@@ -61,7 +61,7 @@ function ListCustomerPage() {
               </tr>
             </TableHeader>
             <TableBody>
-              {customerTable.map((customer, i) => (
+              {customerTable && customerTable.map((customer, i) => (
                 <TableRow key={i}>
                   <TableCell>
                     <div className="flex items-center text-sm">

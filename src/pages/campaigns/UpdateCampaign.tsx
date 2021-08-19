@@ -40,6 +40,7 @@ function UpdateCampaignPage() {
   const {
     register: registerLandingPageFields,
     handleSubmit: handleLandingPageSubmit,
+    setValue: setLandingPageValue
   } = useForm<AddLandingPagePayload>();
 
   const queryClient = useQueryClient()

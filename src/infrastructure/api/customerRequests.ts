@@ -19,11 +19,11 @@ export const getOneCustomerRequest = async (id: number) : Promise<CustomerPayloa
   return data
 } 
 
-export const editCustomerRequest = async (id: number, customer: EditCustomerPayload) : Promise<CustomerPayload[]> => {
+export const editCustomerRequest = async (id: number, customer: EditCustomerPayload) : Promise<CustomerPayload> => {
   const {data} = await axiosInstance.patch("/customers/" + id, customer)
   return data
 } 
-export const removeCustomerRequest = async (id: number) : Promise<CustomerPayload[]> => {
+export const removeCustomerRequest = async (id: number) : Promise<CustomerPayload> => {
   const {data} = await axiosInstance.delete("/customers/" + id)
   return data
 } 

@@ -6,10 +6,12 @@ import { MdArrowBack } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { editCustomerRequest, getOneCustomerRequest } from "src/infrastructure/api/customerRequests";
 import {
+  useHistory,
   useParams
 } from "react-router-dom";
 import { useEffect } from "react";
 import { EditCustomerPayload } from "src/core/domains/customer/entity/types/EditCustomerPayload";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 const {
   Input,
   Label,
@@ -20,30 +22,46 @@ const {
 function EditCustomerPage() {
 
   const customerId = useParams<{id: string }>().id
+
+  const { data: customerData } = useQuery(
+    ['updateCustomerData', customerId],
+    () => getOneCustomerRequest(Number(customerId))
+  )
+
+
   const {
     register,
     handleSubmit,
     setValue
   } = useForm<EditCustomerPayload>();
 
+  const queryClient = useQueryClient()
+  const {push} = useHistory()
+
+  // @ts-ignore
+  const mutation = useMutation((id: number, data: EditCustomerPayload) => editCustomerRequest(id, data), {
+    onSuccess: () => {
+      queryClient.invalidateQueries('updateCustomerData')
+    }
+  })
+
   useEffect(() => {
     if (!customerId) return
-    getOneCustomerRequest(parseInt(customerId))
-    .then(customer => {
-      Object.keys(customer)
-      .forEach((key) => {
-        // @ts-ignore
-        setValue(key, customer[key])
-      })
+    if (!customerData) return
+
+    Object.keys(customerData)
+    .forEach((key) => {
+      // @ts-ignore
+      setValue(key, customerData[key])
     })
-  }, [customerId, setValue])
+  }, [customerData, customerId, setValue])
 
 
 
   const onSubmit: SubmitHandler<EditCustomerPayload> = (data) => {
     if (!customerId) return
-    const send = editCustomerRequest(parseInt(customerId), data)
-    console.log(send)
+    // @ts-ignore
+     mutation.mutate(parseInt(customerId), data)
   };
 
   return (
@@ -160,9 +178,10 @@ function EditCustomerPage() {
         </div>
 
         <div className="px-4 py-3 mb-8">
-          <Button type="submit">Update customer</Button>
+          <Button type="submit" disable={mutation.isLoading}>Update customer</Button>
           <button
             type="reset"
+            onClick={() => push('/app/customer')}
             className="ml-5 bg-transparent text-red-700 hover:text-black py-2 px-4 hover:border-red-500 rounded"
           >
             <MdArrowBack className="inline text-xl align-middle leading-none" />

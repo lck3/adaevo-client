@@ -2,10 +2,11 @@ import React from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
-import { MdArrowBack } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { CreateCustomerPayload } from "src/core/domains/customer/entity/types/CreateCustomerPayload";
 import { addNewCustomerRequest } from "src/infrastructure/api/customerRequests";
+import { useMutation } from "react-query";
+import { useHistory } from "react-router-dom";
 const {
   Input,
   Label,
@@ -14,13 +15,22 @@ const {
 } = require("@windmill/react-ui");
 
 function AddCustomer() {
+
+  const {push} = useHistory()
+  const mutation = useMutation((data: CreateCustomerPayload) => addNewCustomerRequest(data), {
+    onSuccess: () => {
+      push('/app/customer')
+    }
+  })
+
   const {
     register,
     handleSubmit,
   } = useForm<CreateCustomerPayload>();
+
   const onSubmit: SubmitHandler<CreateCustomerPayload> = (data) => {
-    const send = addNewCustomerRequest(data)
-    console.log(send)
+    mutation.mutate(data)
+    
   };
 
   return (
@@ -137,14 +147,7 @@ function AddCustomer() {
         </div>
 
         <div className="px-4 py-3 mb-8">
-          <Button type="submit">Save new customer</Button>
-          <button
-            type="reset"
-            className="ml-5 bg-transparent text-red-700 hover:text-black py-2 px-4 hover:border-red-500 rounded"
-          >
-            <MdArrowBack className="inline text-xl align-middle leading-none" />
-            &nbsp; go back
-          </button>
+          <Button type="submit" disable={mutation.isLoading}>Save new customer</Button>
         </div>
       </form>
     </>

@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, {  } from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
 
-import { ListCampaignsPayload } from "src/core/domains/campaign/entity/types/ListCampaignPayload";
 import { getCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import { SmallButton } from "../../components/Buttons";
 import { Link } from "react-router-dom";
@@ -23,7 +22,7 @@ const {
 function ShowCampaigns() {
 
 
-  const { data: campaignTable, isFetching } = useQuery(
+  const { data: campaignTable } = useQuery(
     'campaignTable',
     getCampaignRequest
   )

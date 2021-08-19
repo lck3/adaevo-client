@@ -54,6 +54,7 @@ function AuthProvider(props: any) {
   const logout = React.useCallback(() => {
     localStorage.removeItem('adaevo_access_token')
     setData(null)
+    window.location.replace('/login')
   }, [setData])
 
   const value = React.useMemo(

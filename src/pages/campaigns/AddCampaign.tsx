@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  } from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
@@ -6,7 +6,6 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { CreateCampaignPayload } from "src/core/domains/campaign/entity/types/CreateCampaignPayload";
 import { addNewCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import { getCustomerRequest } from "src/infrastructure/api/customerRequests";
-import { CustomerPayload } from "src/core/domains/customer/entity/types/CustomerPayload";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
 const {
