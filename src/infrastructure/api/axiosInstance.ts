@@ -1,6 +1,7 @@
 import axios from "axios"
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { handleRemoteOperationError as handleError} from "../../ErrorHandler";
+import  i18n  from '../../i18n/config';
 
 
 export function getToken() {
@@ -57,7 +58,11 @@ const refreshAuthLogic = (failedRequest: any) => axios.post(
     failedRequest.response.config.headers['Authorization'] = 'Bearer ' + getToken();
     return Promise.resolve();
 })
-.catch(error => handleError(error))
+.catch(error => {
+  const errorWithMessage = new Error(i18n.t(`serverResponse.${error.response.data.code}`))
+  handleError(errorWithMessage)
+
+})
 // Create an interceptor to handle refreshing the access token when it expires
 createAuthRefreshInterceptor(instance, refreshAuthLogic);
 

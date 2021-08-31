@@ -1,5 +1,7 @@
 import React from "react";
 import { FullPageErrorFallback } from "./components/lib";
+import  i18n  from './i18n/config';
+
 import './assets/css/alert-notice.scss'
 
 const template = `
@@ -20,7 +22,8 @@ export function ErrorFallback({ error }: any) {
   );
 }
 
-export function handleRemoteOperationError(error: any) {
+export function handleRemoteOperationError(error: Error) {
+  console.log( i18n.t('serverResponse.unknown')  )
   const containerQuery = document.querySelector("body .platform-alert");
   if (!containerQuery) {
     // @ts-ignore

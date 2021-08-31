@@ -34,6 +34,8 @@
     "classnames": "2.2.6",
     "faker": "4.1.0",
     "html-react-parser": "^1.2.8",
+    "i18next": "^20.5.0",
+    "i18next-browser-languagedetector": "^6.1.2",
     "node-sass": "4.14.1",
     "react": "^16.13.1",
     "react-chartjs-2": "2.9.0",

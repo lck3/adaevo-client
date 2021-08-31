@@ -7,32 +7,50 @@ import { useAuth } from "src/context/auth-context";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
+import '../i18n/config';
+import { useTranslation } from 'react-i18next';
+
 import '../assets/css/login.scss'
 
 function Login() {
-  const [userForm, setUserForm] = useState({
-    username: undefined,
-    password: undefined,
-  });
+
   const { login, clearStorageAuthItems } = useAuth();
+
+  const { t } = useTranslation();
+
 
   // form validation rules
   const validationSchema = Yup.object().shape({
     username: Yup.string()
-      .required("Email is required")
-      .email("Email is invalid"),
+      .required(t('login.email.required'))
+      .email(t('login.email.invalid')),
     password: Yup.string()
-      .min(6, "Password must be at least 6 characters")
-      .required("Password is required"),
+      .min(6, t('login.password.minChar'))
+      .required(t('login.password.required')),
   });
   const formOptions = { resolver: yupResolver(validationSchema) };
 
   // get functions to build form with useForm() hook
-  const { register, handleSubmit, formState } = useForm(formOptions);
+  const { register, handleSubmit, formState, setError } = useForm(formOptions);
   const { errors } = formState;
   useEffect(() => {
     clearStorageAuthItems();
   }, [clearStorageAuthItems]);
+
+  const onLoginError = (errors, e) => {
+    try {
+      setError('password', {
+        type: "manual",
+        message: t(`serverResponse.${errors.response.data.code}`)
+      })
+    } catch (_) {
+      setError('password', {
+        type: "manual",
+        message: t('serverResponse.unknown')
+      })
+
+    }
+  }
 
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
@@ -53,7 +71,7 @@ function Login() {
             />
           </div>
           <main className="flex items-center justify-center p-6 sm:p-12 md:w-1/2">
-            <form className="w-full" onSubmit={handleSubmit(login)}>
+            <form className="w-full" onSubmit={handleSubmit(async (data) => await login(data).catch(err => onLoginError(err)))}>
               <h1 className="mb-4 text-xl font-semibold text-gray-700 dark:text-gray-200">
                 Login
               </h1>
@@ -90,7 +108,9 @@ function Login() {
               </Label>
 
               <Button className="mt-4" block type="submit">
-                Log in
+                {
+                  t('login.buttonText')
+                }
               </Button>
 
               <hr className="my-8" />

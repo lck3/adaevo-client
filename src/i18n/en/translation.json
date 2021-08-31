@@ -1,0 +1,19 @@
+{
+  "login": {
+    "email" : {
+      "invalid": "Email is invalid",
+      "required": "Email is lost"
+    },
+    "password": {
+      "minChar": "Password must be at least 6 characters",
+      "required": "Password is required",
+      "wrongPassword": "Password is not correct. Check your password."
+    },
+    "buttonText": "Login"
+  },
+  "serverResponse": {
+    "613" : "Your username or password is not correct. Kindly try again.",
+    "611" : "Your Session expired. To Continue, kindly login again.",
+    "unknown": "Login Attempt Failed. Please try again"
+  }
+}
