@@ -24,7 +24,7 @@
   "include": [
     "./src/**/*.ts",
     "./src/**/*.js"
-, "src/components/Buttons.tsx", "src/pages/campaigns/AddCampaign.tsx"  ],
+, "src/components/Buttons.tsx", "src/pages/campaigns/AddCampaign.tsx", "src/ErrorHandler.tsx"  ],
   "exclude": [
     "./dist"
   ]

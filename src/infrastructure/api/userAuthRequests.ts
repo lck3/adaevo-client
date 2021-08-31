@@ -1,15 +1,16 @@
-import axiosInstance, { getToken, setToken } from './axiosInstance'
+import axiosInstance, { getToken, setRefreshToken, setToken } from './axiosInstance'
+import { handleRemoteOperationError as handleError} from "../../ErrorHandler";
 
 
 
 export const login = async (form: {username: string, password: string}) => {
-  const {data} = await axiosInstance.post(`/auth`, form)
-  setToken(data.accessToken)
-  return data
+  const response = await axiosInstance.post(`/auth`, form).catch(error => handleError(error))
+  setToken(response?.data.accessToken)
+  setRefreshToken(response?.data.refreshToken)
+  return response?.data 
 }
 
 export const getUser = async () => {
   if (!getToken()) return null
-  const {data} = await axiosInstance.get(`/auth`)
-  return data
-}
+  const response = await axiosInstance.get(`/auth`).catch(error => handleError(error))
+  return response?.data }

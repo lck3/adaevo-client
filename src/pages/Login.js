@@ -7,7 +7,11 @@ import { useAuth } from 'src/context/auth-context'
 
 function Login() {
   const [userForm, setUserForm] = useState({username: undefined, password: undefined})
-  const {login} = useAuth()
+  const {login, clearStorageAuthItems} = useAuth()
+
+  useEffect(() => {
+    clearStorageAuthItems()
+  },[clearStorageAuthItems])
 
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">

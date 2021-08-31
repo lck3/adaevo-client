@@ -1,11 +1,22 @@
 import axios from "axios"
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
+import { handleRemoteOperationError as handleError} from "../../ErrorHandler";
+
 
 export function getToken() {
-  return window.localStorage.getItem('adaevo_access_token') || null
+  return window.sessionStorage.getItem('adaevo_access_token') || null
 }
 
 export function setToken(token: string) {
-  return window.localStorage.setItem('adaevo_access_token', `Bearer ${token}`)
+  return window.sessionStorage.setItem('adaevo_access_token', `Bearer ${token}`)
+}
+
+export function getRefreshToken() {
+  return window.localStorage.getItem('adaevo_refresh_token') || null
+}
+
+export function setRefreshToken(token: string) {
+  return window.localStorage.setItem('adaevo_refresh_token', `${token}`)
 }
 
 const instance  = axios.create({
@@ -25,17 +36,30 @@ instance.interceptors.request.use(function (config) {
 });
 
 instance.interceptors.response.use(function (response) {
-  // Any status code that lie within the range of 2xx cause this function to trigger
-  // Do something with response data
   return response;
 }, function (error) {
-  // Any status codes that falls outside the range of 2xx cause this function to trigger
-  // Do something with response error
+
   if(error.status === 401) {
     window.localStorage.removeItem('adaevo_access_token')
     window.location.replace('/login')
   }
   return Promise.reject(error);
 });
+
+const refreshAuthLogic = (failedRequest: any) => axios.post(
+  process.env.REACT_APP_API_SERVER + '/api/v1/auth/refresh',
+  {
+    refreshToken: getRefreshToken()
+  }
+).then(tokenRefreshResponse => {
+    debugger
+    setToken(tokenRefreshResponse.data.accessToken)
+    failedRequest.response.config.headers['Authorization'] = 'Bearer ' + getToken();
+    return Promise.resolve();
+})
+.catch(error => handleError(error))
+// Create an interceptor to handle refreshing the access token when it expires
+createAuthRefreshInterceptor(instance, refreshAuthLogic);
+
 
 export default instance

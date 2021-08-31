@@ -155,6 +155,8 @@ function FullPageErrorFallback({error}) {
     >
       <p>Uh oh... There's a problem. Try refreshing the app.</p>
       <pre>{error.message}</pre>
+      <a style={{color:"blue"}} href="/login">Refresh Application State</a>
+
     </div>
   )
 }

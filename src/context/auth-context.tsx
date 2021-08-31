@@ -40,9 +40,9 @@ function AuthProvider(props: any) {
         return getUser()
       })
       .then((user: any) => {
-      console.log(user)
-      setData(user)
+        setData(user)
       })
+      // @todo clean up errors on login using alert handler
       // .catch(err => {
       //   // @todo use Error Boundary
       //   console.log(err)
@@ -50,16 +50,26 @@ function AuthProvider(props: any) {
       ,
     [setData],
   )
- 
+  /**
+   * utility function to clear authentication properties without redirect
+   */
+  const clearStorageAuthItems = React.useCallback( () => {
+    sessionStorage.removeItem('adaevo_access_token')
+    localStorage.removeItem('adaevo_refresh_token')
+    setData(null)
+  }, [setData]
+  )
+
   const logout = React.useCallback(() => {
-    localStorage.removeItem('adaevo_access_token')
+    clearStorageAuthItems()
     setData(null)
     window.location.replace('/login')
-  }, [setData])
+  }, [clearStorageAuthItems, setData])
+
 
   const value = React.useMemo(
-    () => ({user, login, logout}),
-    [login, logout, user],
+    () => ({user, login, logout, clearStorageAuthItems}),
+    [clearStorageAuthItems, login, logout, user],
   )
 
   if (isLoading || isIdle) {
