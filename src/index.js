@@ -9,6 +9,7 @@ import * as serviceWorker from "./serviceWorker";
 import { ErrorBoundary } from "react-error-boundary";
 import { ErrorFallback } from "./ErrorHandler";
 import { AppProviders } from "./context";
+import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -29,3 +30,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
+reportWebVitals()

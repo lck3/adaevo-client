@@ -1,6 +1,7 @@
 import React from "react";
 import { FullPageErrorFallback } from "./components/lib";
 import './assets/css/alert-notice.scss'
+
 const template = `
 <div class="platform-alert" style="display: none">
   <span class="fas fa-exclamation-circle"></span>
@@ -46,9 +47,4 @@ export function handleRemoteOperationError(error: any) {
       }
     }, 5000);
   }
-
-  // $('.close-btn').click(function(){
-  //   $('.alert').removeClass("show");
-  //   $('.alert').addClass("hide");
-  // });
 }
