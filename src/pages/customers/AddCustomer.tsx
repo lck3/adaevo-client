@@ -58,8 +58,8 @@ function AddCustomer() {
 
   const onSubmit: SubmitHandler<CreateCustomerPayload> = (data) => {
     mutation.mutateAsync(data)
-    .then(() => handleRemoteOperationSuccess(t(`customer.addCustomer.response.success`)))
-    .catch(() => handleRemoteOperationError(t(`customer.addCustomer.response.failed`)))
+    .then(() => handleRemoteOperationSuccess(t(`customers.addCustomer.response.success`)))
+    .catch(() => handleRemoteOperationError(t(`customers.addCustomer.response.failed`)))
   };
 
   return (

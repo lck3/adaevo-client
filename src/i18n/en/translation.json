@@ -17,7 +17,19 @@
     "612" : "Your Session expired. To Continue, kindly login again.",
     "unknown": "Login Attempt Failed. Please try again"
   },
-  "customer" : {
+  "customers" : {
+    "removeCustomer": {
+      "response" : {
+        "success": "The customer record has been removed successfully.",
+        "failed" : "An error occured while attempting to remove a customer. Refresh the page and try again."
+      }
+    },
+    "updateCustomer": {
+      "response" : {
+        "success": "The customer record has been updated successfully.",
+        "failed" : "An error occured while attempting to update a customer record. Refresh the page and try again."
+      }
+    },
     "addCustomer": {
       "response" : {
         "success": "The customer record has been created successfully.",

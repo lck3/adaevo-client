@@ -12,6 +12,9 @@ import {
 import { useEffect } from "react";
 import { EditCustomerPayload } from "src/core/domains/customer/entity/types/EditCustomerPayload";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useTranslation } from "react-i18next";
+import { handleRemoteOperationError } from "src/utils/ErrorHandler";
+import { handleRemoteOperationSuccess } from "src/utils/SuccessHandler";
 const {
   Input,
   Label,
@@ -20,6 +23,7 @@ const {
 } = require("@windmill/react-ui");
 
 function EditCustomerPage() {
+  const { t } = useTranslation();
 
   const customerId = useParams<{id: string }>().id
 
@@ -38,8 +42,9 @@ function EditCustomerPage() {
   const queryClient = useQueryClient()
   const {push} = useHistory()
 
-  // @ts-ignore
-  const mutation = useMutation((id: number, data: EditCustomerPayload) => editCustomerRequest(id, data), {
+  const mutation = useMutation((fnArgs: any) => {
+    return editCustomerRequest(fnArgs.id, fnArgs.data)
+  }, {
     onSuccess: () => {
       queryClient.invalidateQueries('updateCustomerData')
     }
@@ -60,8 +65,14 @@ function EditCustomerPage() {
 
   const onSubmit: SubmitHandler<EditCustomerPayload> = (data) => {
     if (!customerId) return
+    
     // @ts-ignore
-     mutation.mutate(parseInt(customerId), data)
+     mutation.mutateAsync({
+       id : parseInt(customerId), 
+       data
+     })
+     .then(() => handleRemoteOperationSuccess(t(`customers.updateCustomer.response.success`)))
+     .catch(() => handleRemoteOperationError(t(`customers.updateCustomer.response.failed`)))
   };
 
   return (
@@ -178,7 +189,7 @@ function EditCustomerPage() {
         </div>
 
         <div className="px-4 py-3 mb-8">
-          <Button type="submit" disable={mutation.isLoading}>Update customer</Button>
+          <Button type="submit" disabled={mutation.isLoading}>Update customer</Button>
           <button
             type="reset"
             onClick={() => push('/app/customer')}

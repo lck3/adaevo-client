@@ -9,6 +9,9 @@ import {
   Link
 } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from 'react-query'
+import { handleRemoteOperationError } from 'src/utils/ErrorHandler'
+import { handleRemoteOperationSuccess } from 'src/utils/SuccessHandler'
+import { useTranslation } from 'react-i18next'
 const {
   Table,
   TableHeader,
@@ -23,6 +26,7 @@ const {
 // make a copy of the data, for the second table
 
 function ListCustomerPage() {
+  const { t } = useTranslation();
 
   const { data: customerTable } = useQuery(
     'setCustomerTable',
@@ -40,7 +44,9 @@ function ListCustomerPage() {
 
 
   const handleDeleteCustomer = (id: number) => {
-    mutation.mutate(id)
+    mutation.mutateAsync(id)
+    .then(() => handleRemoteOperationSuccess(t(`customers.removeCustomer.response.success`)))
+    .catch(() => handleRemoteOperationError(t(`customers.removeCustomer.response.failed`)))
   }
 
   return (
