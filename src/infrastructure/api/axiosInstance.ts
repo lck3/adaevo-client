@@ -1,7 +1,7 @@
 import axios from "axios"
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
-import { handleRemoteOperationError as handleError} from "../../ErrorHandler";
-import  i18n  from '../../i18n/config';
+import { handleRemoteOperationError as handleError} from "../../utils/ErrorHandler";
+
 
 
 export function getToken() {
@@ -50,17 +50,16 @@ instance.interceptors.response.use(function (response) {
 const refreshAuthLogic = (failedRequest: any) => axios.post(
   process.env.REACT_APP_API_SERVER + '/api/v1/auth/refresh',
   {
-    refreshToken: getRefreshToken()
+    refresh_token: getRefreshToken()
   }
 ).then(tokenRefreshResponse => {
-    debugger
+    
     setToken(tokenRefreshResponse.data.accessToken)
     failedRequest.response.config.headers['Authorization'] = 'Bearer ' + getToken();
     return Promise.resolve();
 })
 .catch(error => {
-  const errorWithMessage = new Error(i18n.t(`serverResponse.${error.response.data.code}`))
-  handleError(errorWithMessage)
+  handleError(error.response.data)
 
 })
 // Create an interceptor to handle refreshing the access token when it expires

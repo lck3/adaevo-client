@@ -2,7 +2,7 @@
   "login": {
     "email" : {
       "invalid": "Email is invalid",
-      "required": "Email is lost"
+      "required": "Email is required"
     },
     "password": {
       "minChar": "Password must be at least 6 characters",
@@ -14,6 +14,22 @@
   "serverResponse": {
     "613" : "Your username or password is not correct. Kindly try again.",
     "611" : "Your Session expired. To Continue, kindly login again.",
+    "612" : "Your Session expired. To Continue, kindly login again.",
     "unknown": "Login Attempt Failed. Please try again"
+  },
+  "customer" : {
+    "addCustomer": {
+      "response" : {
+        "success": "The customer record has been created successfully.",
+        "failed" : "An error occured while creating a customer. Check the data submitted and try again."
+      },
+      "fields": {
+        "businessName": {
+          "label": "Business Name",
+          "placeholder": "eg ABC.com",
+          "required": "Business name is required"
+        }
+      }
+    }
   }
 }

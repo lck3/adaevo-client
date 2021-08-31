@@ -1,3 +1,10 @@
+/** 
+ * The services /axios requests defined here return back a Promise without 
+ * any error handling . This passes the responsibility of catching errors 
+ * to the calling function. 
+ * If errors are not caught, errors will likely crash the app and get caught 
+ * the default error boundary
+ */
 import { CreateCustomerPayload } from 'src/core/domains/customer/entity/types/CreateCustomerPayload'
 import { CustomerPayload } from 'src/core/domains/customer/entity/types/CustomerPayload'
 import { EditCustomerPayload } from 'src/core/domains/customer/entity/types/EditCustomerPayload'

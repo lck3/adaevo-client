@@ -5,16 +5,14 @@ import * as React from 'react'
 import {useAsync} from '../utils/hooks'
 import {FullPageSpinner, FullPageErrorFallback} from '../components/lib'
 import {login as userLogin, getUser} from '../infrastructure/api/userAuthRequests'
-import { handleRemoteOperationError } from 'src/ErrorHandler'
-import '../i18n/config';
-import { useTranslation } from 'react-i18next'
+import { handleRemoteOperationError } from '../utils/ErrorHandler'
 
-async function bootstrapAppData(lang: any) {
+async function bootstrapAppData() {
   
   let user = null
   user = await getUser().catch(err => {
-    debugger
-    handleRemoteOperationError(new Error(lang(`serverResponse.${err.response.data.code}`)))
+    console.log(err)
+    handleRemoteOperationError(err instanceof Error ? err : err.response.data)
   })
   
   return user
@@ -36,15 +34,12 @@ function AuthProvider(props: any) {
     setData,
   } = useAsync()
 
-  
-  const { t, ready } = useTranslation(undefined , { useSuspense: false });
 
   
   React.useEffect(() => {
-    if (!ready) return
-    const appDataPromise = bootstrapAppData(t)
+    const appDataPromise = bootstrapAppData()
     run(appDataPromise)
-  }, [run, t, ready])
+  }, [run])
 
   const login = React.useCallback(
     (form: any) => userLogin(form)

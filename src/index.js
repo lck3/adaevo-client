@@ -7,7 +7,7 @@ import ThemedSuspense from "./components/ThemedSuspense";
 import { Windmill } from "@windmill/react-ui";
 import * as serviceWorker from "./serviceWorker";
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "./ErrorHandler";
+import { ErrorFallback } from "./utils/ErrorHandler";
 import { AppProviders } from "./context";
 import reportWebVitals from './ReportWebVitals';
 
