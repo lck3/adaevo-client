@@ -39,10 +39,12 @@ export function ErrorFallback({ error }: any) {
  * This function will use the `message` property to display an error message alert.
  * @param error 
  */
-export function handleRemoteOperationError(error: PlatformServerError ) {
+export function handleRemoteOperationError(error: PlatformServerError, options? : {message: string} ) {
   const containerQuery = document.querySelector("body .platform-alert.failure-notice");
   let message = ''
-  if (!error.response) {
+  if (options && options.message) {
+    message = options.message
+  } else if (!error.response) {
     message = error.message
   } else {
     message = i18n.t(`serverResponse.${error.response.data.code}`)

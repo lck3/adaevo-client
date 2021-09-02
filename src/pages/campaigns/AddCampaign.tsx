@@ -48,7 +48,7 @@ function AddCampaignForm() {
     .then(()  => {
       push('/app/campaign')
     })
-    .catch(error => handleRemoteOperationError(error))
+    .catch(error => handleRemoteOperationError(error, t('campaigns.addCampaign.response.failed')))
   };
 
 

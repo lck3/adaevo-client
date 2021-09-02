@@ -8,3 +8,11 @@ export type EditCampaignsPayload = {
   },
   landingPages: EditLandingPagePayload[]
 }
+
+export type EditCampaignArguments = {
+  campaignId: number,
+  campaignData: {
+    title: string,
+    tags: string
+  }
+}

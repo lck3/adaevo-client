@@ -24,6 +24,36 @@
         "success": "The campaign record has been created successfully.",
         "failed" : "An error occured while creating a campaign. Check the data submitted and try again."
       }
+    },
+    "updateCampaign":{
+      "response" : {
+        "success": "The campaign record has been successfully updated.",
+        "failed" : "An error occured while updating this campaign. Check the data submitted and try again."
+      }
+    },
+    "deleteCampaign":{
+      "response" : {
+        "success": "The campaign record has been successfully deleted.",
+        "failed" : "An error occured while removing this campaign. Try again or contact the Admin."
+      }
+    },
+    "addLandingPage": {
+      "response" : {
+        "success": "The landing page record has been added successfully.",
+        "failed" : "An error occured while adding a landing page. Check the data submitted and try again."
+      }
+    },
+    "deleteLandingPage": {
+      "response" : {
+        "success": "The landing page record has been removed successfully.",
+        "failed" : "An error occured while deleting a landing page. Check the data submitted and try again."
+      }
+    },
+    "updateLandingPage": {
+      "response" : {
+        "success": "The landing page status has been updated successfully.",
+        "failed" : "An error occured while updating a landing page. Check the data submitted and try again."
+      }
     }
   },
   "customers" : {

@@ -9,7 +9,7 @@ import {
 } from "src/infrastructure/api/campaignRequests";
 import { AddLandingPagePayload } from "src/core/domains/landingpage/entity/types/AddLandingPagePayload";
 import { useHistory, useParams } from "react-router-dom";
-import { EditCampaignsPayload } from "src/core/domains/campaign/entity/types/EditCampaignPayload";
+import { EditCampaignArguments, EditCampaignsPayload } from "src/core/domains/campaign/entity/types/EditCampaignPayload";
 import {
   addNewLandingPageRequest,
   removeLandingPageRequest,
@@ -20,6 +20,7 @@ import { EditLandingPagePayload } from "src/core/domains/landingpage/entity/type
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { handleRemoteOperationError, PlatformServerError } from "src/utils/ErrorHandler";
 import { useTranslation } from "react-i18next";
+import { handleRemoteOperationSuccess } from "src/utils/SuccessHandler";
 const { Input, Label, Button } = require("@windmill/react-ui");
 const {
   Table,
@@ -59,7 +60,7 @@ function UpdateCampaignPage() {
 
   // handle landing page updates
   const landingPageMutation = useMutation(
-    (campaign: AddLandingPagePayload) => addNewLandingPageRequest(campaign),
+    (landingPage: AddLandingPagePayload) => addNewLandingPageRequest(landingPage),
     {
       onSuccess: () => {
         queryClient.invalidateQueries("campaignData");
@@ -69,7 +70,7 @@ function UpdateCampaignPage() {
   // handle campaign title, tags update
   const campaignMutation = useMutation(
     // @ts-ignore
-    updateCampaignRequest,
+    (campaign: EditCampaignArguments) => updateCampaignRequest(campaign),
     {
       mutationKey: 'updateCampaignRequest',
       onSuccess: () => {
@@ -99,8 +100,11 @@ function UpdateCampaignPage() {
         url: data.url,
         campaignId: parseInt(campaignId),
       })
-      .then(() => setLandingPageValue('url', "") )
-      .catch((error: any) => handleRemoteOperationError(error));
+      .then(() => {
+        setLandingPageValue('url', "") 
+        handleRemoteOperationSuccess(t('campaigns.addLandingPage.response.success'))
+      })
+      .catch((error: any) => handleRemoteOperationError(error, t('campaigns.addLandingPage.response.failed')));
   };
 
   /**
@@ -111,19 +115,26 @@ function UpdateCampaignPage() {
   ) => {
     // @ts-ignore
     campaignMutation.mutateAsync({campaignId: parseInt(campaignId),campaignData: data})
-    .catch((error: any) => handleRemoteOperationError(error));
+    .then(() => handleRemoteOperationSuccess(t('campaigns.updateCampaign.response.success')))
+    .catch((error: any) => handleRemoteOperationError(error, t('campaigns.updateCampaign.response.failed')));
   };
 
   function handleRemoveLandingPage(id: number) {
     removeLandingPageRequest(parseInt(campaignId), id)
-      .then(() => go(0))
-      .catch((error: any) => handleRemoteOperationError(error));
+      .then(() => {
+        queryClient.invalidateQueries("campaignData");
+        handleRemoteOperationSuccess(t('campaigns.deleteLandingPage.response.success'))
+      })
+      .catch((error: any) => handleRemoteOperationError(error, t('campaigns.deleteLandingPage.response.failed')));
   }
 
   function handleStatusUpdate(page: EditLandingPagePayload, status: string) {
     updateLandingPageStatusRequest(page.id, { ...page, status })
-      .then(() => go(0))
-      .catch((error: any) => handleRemoteOperationError(error));
+      .then(() => {
+        queryClient.invalidateQueries("campaignData");
+        handleRemoteOperationSuccess(t('campaigns.updateLandingPage.response.success'))
+      })
+      .catch((error: any) => handleRemoteOperationError(error, t('campaigns.updateLandingPage.response.success')));
   }
 
   function parseMetricNumber(metricValue = 0) {

@@ -5,13 +5,13 @@
  * If errors are not caught, errors will likely crash the app and get caught 
  * the default error boundary
  */
-import { CreateCampaignPayload } from 'src/core/domains/campaign/entity/types/CreateCampaignPayload'
-import { EditCampaignsPayload } from 'src/core/domains/campaign/entity/types/EditCampaignPayload'
+import { CreateCampaignArguments, CreateCampaignPayload } from 'src/core/domains/campaign/entity/types/CreateCampaignPayload'
+import { EditCampaignArguments, EditCampaignsPayload } from 'src/core/domains/campaign/entity/types/EditCampaignPayload'
 import { ListCampaignsPayload } from 'src/core/domains/campaign/entity/types/ListCampaignPayload'
 import axiosInstance from './axiosInstance'
 
 
-export const addNewCampaignRequest = async (campaign: CreateCampaignPayload) => {
+export const addNewCampaignRequest = async (campaign: CreateCampaignArguments): Promise<CreateCampaignPayload> => {
   const {data} = await axiosInstance.post('/campaigns', campaign)
   return data
 }
@@ -27,8 +27,8 @@ export const getOneCampaignRequest = async (id: number) : Promise<EditCampaignsP
 } 
 
 
-export const updateCampaignRequest = async ({id, campaign} : any ) : Promise<EditCampaignsPayload> => {
-  const {data} = await axiosInstance.patch("/campaigns/" + id, campaign)
+export const updateCampaignRequest = async ({campaignId, campaignData} : EditCampaignArguments ) : Promise<EditCampaignsPayload> => {
+  const {data} = await axiosInstance.patch("/campaigns/" + campaignId, campaignData)
   return data
 } 
 export const removeCampaignRequest = async (id: number) : Promise<EditCampaignsPayload> => {
