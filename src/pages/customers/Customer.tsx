@@ -30,7 +30,10 @@ function ListCustomerPage() {
 
   const { data: customerTable } = useQuery(
     'setCustomerTable',
-    getCustomerRequest
+    getCustomerRequest,
+     {
+       onError: (error: Error) => handleRemoteOperationError(error)
+     }
   )
 
   const queryClient = useQueryClient()

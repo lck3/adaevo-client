@@ -8,6 +8,9 @@ import { addNewCampaignRequest } from "src/infrastructure/api/campaignRequests";
 import { getCustomerRequest } from "src/infrastructure/api/customerRequests";
 import { useMutation, useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
+import { handleRemoteOperationError } from "src/utils/ErrorHandler";
+import { handleRemoteOperationSuccess } from "src/utils/SuccessHandler";
+import { useTranslation } from "react-i18next";
 const {
   Input,
   Label,
@@ -16,6 +19,7 @@ const {
 } = require("@windmill/react-ui");
 
 function AddCampaignForm() {
+  const { t } = useTranslation();
 
   // const [customerDropDownData, setCustomerDropDownData] = useState<CustomerPayload[]>([])
   const {
@@ -25,7 +29,10 @@ function AddCampaignForm() {
 
   const { data: customerDropDownData, isFetching } = useQuery(
     'customerDropDownData',
-    getCustomerRequest
+    getCustomerRequest,
+    {
+      onError: (error: Error) => handleRemoteOperationError(error)
+    }
   )
 
   const {push} = useHistory()
@@ -37,9 +44,11 @@ function AddCampaignForm() {
     data
   ) => {
     mutation.mutateAsync(data)
+    .then(async () => handleRemoteOperationSuccess(t('campaigns.addCampaign.response.success')))
     .then(()  => {
       push('/app/campaign')
     })
+    .catch(error => handleRemoteOperationError(error))
   };
 
 

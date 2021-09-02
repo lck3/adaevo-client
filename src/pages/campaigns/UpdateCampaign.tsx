@@ -18,6 +18,8 @@ import {
 import { SmallButton } from "src/components/Buttons";
 import { EditLandingPagePayload } from "src/core/domains/landingpage/entity/types/EditLandingPagePayload";
 import { useMutation, useQuery, useQueryClient } from "react-query";
+import { handleRemoteOperationError, PlatformServerError } from "src/utils/ErrorHandler";
+import { useTranslation } from "react-i18next";
 const { Input, Label, Button } = require("@windmill/react-ui");
 const {
   Table,
@@ -28,6 +30,7 @@ const {
   TableRow,
 } = require("@windmill/react-ui");
 function UpdateCampaignPage() {
+  const { t } = useTranslation();
 
   const campaignId = useParams<{ id: string }>().id;
 
@@ -40,39 +43,40 @@ function UpdateCampaignPage() {
   const {
     register: registerLandingPageFields,
     handleSubmit: handleLandingPageSubmit,
-    setValue: setLandingPageValue
+    setValue: setLandingPageValue,
   } = useForm<AddLandingPagePayload>();
 
-  const queryClient = useQueryClient()
-  const {go} = useHistory()
+  const queryClient = useQueryClient();
+  const { go } = useHistory();
 
   const { data: campaignData, isFetching } = useQuery(
     ["campaignData", parseInt(campaignId)],
-    () => getOneCampaignRequest(parseInt(campaignId))
+    () => getOneCampaignRequest(parseInt(campaignId)),
+    {
+      onError: (error: any) => handleRemoteOperationError(error)
+    }
   );
 
-
-
   // handle landing page updates
-  const landingPageMutation = useMutation((campaign: AddLandingPagePayload) =>
-    addNewLandingPageRequest(campaign),
+  const landingPageMutation = useMutation(
+    (campaign: AddLandingPagePayload) => addNewLandingPageRequest(campaign),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('campaignData')
-      }
+        queryClient.invalidateQueries("campaignData");
+      },
     }
   );
   // handle campaign title, tags update
-  const campaignMutation = useMutation(    
+  const campaignMutation = useMutation(
     // @ts-ignore
-    (campaignId, campaign) => updateCampaignRequest(campaignId, campaign),
+    updateCampaignRequest,
     {
+      mutationKey: 'updateCampaignRequest',
       onSuccess: () => {
-        queryClient.invalidateQueries('campaignData')
-      }
+        queryClient.invalidateQueries("campaignData");
+      },
     }
   );
-
 
   useEffect(() => {
     if (!campaignId) return;
@@ -90,10 +94,13 @@ function UpdateCampaignPage() {
   const onAddLandingPageSubmit: SubmitHandler<AddLandingPagePayload> = (
     data
   ) => {
-    landingPageMutation.mutateAsync({
-      url: data.url,
-      campaignId: parseInt(campaignId),
-    });
+    landingPageMutation
+      .mutateAsync({
+        url: data.url,
+        campaignId: parseInt(campaignId),
+      })
+      .then(() => setLandingPageValue('url', "") )
+      .catch((error: any) => handleRemoteOperationError(error));
   };
 
   /**
@@ -103,16 +110,20 @@ function UpdateCampaignPage() {
     data
   ) => {
     // @ts-ignore
-    campaignMutation(parseInt(campaignId), data);
+    campaignMutation.mutateAsync({campaignId: parseInt(campaignId),campaignData: data})
+    .catch((error: any) => handleRemoteOperationError(error));
   };
 
   function handleRemoveLandingPage(id: number) {
     removeLandingPageRequest(parseInt(campaignId), id)
-    .then(() => go(0))
+      .then(() => go(0))
+      .catch((error: any) => handleRemoteOperationError(error));
   }
 
   function handleStatusUpdate(page: EditLandingPagePayload, status: string) {
-    updateLandingPageStatusRequest(page.id, { ...page, status }).then(() => go(0))
+    updateLandingPageStatusRequest(page.id, { ...page, status })
+      .then(() => go(0))
+      .catch((error: any) => handleRemoteOperationError(error));
   }
 
   function parseMetricNumber(metricValue = 0) {
@@ -162,7 +173,7 @@ function UpdateCampaignPage() {
         </div>
       </form>
       <SectionTitle>Add Landing Pages.</SectionTitle>
-      <form onSubmit={handleLandingPageSubmit(onAddLandingPageSubmit)}>
+      <form onSubmit={handleLandingPageSubmit(onAddLandingPageSubmit)} noValidate={true}>
         <div className="px-4 py-3 mb-8 bg-white rounded-lg shadow-md dark:bg-gray-800">
           <Label>
             <span>URL</span>
@@ -174,6 +185,7 @@ function UpdateCampaignPage() {
                 http(s)://
               </p>
               <Input
+                type="url"
                 {...registerLandingPageFields("url")}
                 className="mt-1 form-input block w-full pl-20"
                 placeholder="eg linktolandingpage.com/landingpage.html"
@@ -182,7 +194,7 @@ function UpdateCampaignPage() {
           </Label>
 
           <Label className="mt-4">
-            <Button disable={landingPageMutation.isLoading} type="submit">
+            <Button disabled={landingPageMutation.isLoading} type="submit">
               Add
             </Button>
           </Label>
@@ -190,73 +202,75 @@ function UpdateCampaignPage() {
       </form>
       {
         // @ts-ignore
-        campaignData && campaignData.landingPages && campaignData.landingPages.length > 0 && (
-          <TableContainer className="mb-8">
-            <Table>
-              <TableHeader>
-                <tr>
-                  <TableCell className="w-6/12">Landing Page Urls</TableCell>
-                  <TableCell className="w-1/12">Views</TableCell>
-                  <TableCell className="w-1/12">Engagement</TableCell>
-                  <TableCell className="w-1/12">Sessions</TableCell>
-                  <TableCell className="w-1/12">Engaged Sessions</TableCell>
-                  <TableCell className="w-2/12">Status</TableCell>
-                  <TableCell className="w-1/12"></TableCell>
-                </tr>
-              </TableHeader>
-              <TableBody>
-                {
-                  // @ts-ignore
-                  campaignData.landingPages.map(
-                    ({ stats, url, id, status, ...page }, key) => {
-                      return (
-                        <TableRow key={key}>
-                          <TableCell>{url}</TableCell>
-                          <TableCell>
-                            {stats?.stats?.screenPageViews ?? 0}
-                          </TableCell>
-                          <TableCell>
-                            {parseMetricNumber(stats?.stats?.engagementRate)}
-                          </TableCell>
-                          <TableCell>{stats?.stats?.sessions ?? 0}</TableCell>
-                          <TableCell>
-                            {parseMetricNumber(stats?.stats?.engagedSessions)}
-                          </TableCell>
-                          <TableCell>
-                            <Label className="mt-0">
-                              <select
-                                onChange={(e: any) =>
-                                  handleStatusUpdate(
-                                    { ...page, stats, id, status },
-                                    e.target.value
-                                  )
-                                }
-                                value={status}
-                                className="block w-full dark:text-gray-300 focus:outline-none focus:border-purple-400 dark:border-gray-600 dark:bg-gray-700 focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:focus:border-gray-600 form-select leading-5 mt-0 p-1 text-xs"
+        campaignData &&
+          campaignData.landingPages &&
+          campaignData.landingPages.length > 0 && (
+            <TableContainer className="mb-8">
+              <Table>
+                <TableHeader>
+                  <tr>
+                    <TableCell className="w-6/12">Landing Page Urls</TableCell>
+                    <TableCell className="w-1/12">Views</TableCell>
+                    <TableCell className="w-1/12">Engagement</TableCell>
+                    <TableCell className="w-1/12">Sessions</TableCell>
+                    <TableCell className="w-1/12">Engaged Sessions</TableCell>
+                    <TableCell className="w-2/12">Status</TableCell>
+                    <TableCell className="w-1/12"></TableCell>
+                  </tr>
+                </TableHeader>
+                <TableBody>
+                  {
+                    // @ts-ignore
+                    campaignData.landingPages.map(
+                      ({ stats, url, id, status, ...page }, key) => {
+                        return (
+                          <TableRow key={key}>
+                            <TableCell>{url}</TableCell>
+                            <TableCell>
+                              {stats?.stats?.screenPageViews ?? 0}
+                            </TableCell>
+                            <TableCell>
+                              {parseMetricNumber(stats?.stats?.engagementRate)}
+                            </TableCell>
+                            <TableCell>{stats?.stats?.sessions ?? 0}</TableCell>
+                            <TableCell>
+                              {parseMetricNumber(stats?.stats?.engagedSessions)}
+                            </TableCell>
+                            <TableCell>
+                              <Label className="mt-0">
+                                <select
+                                  onChange={(e: any) =>
+                                    handleStatusUpdate(
+                                      { ...page, stats, id, status },
+                                      e.target.value
+                                    )
+                                  }
+                                  value={status}
+                                  className="block w-full dark:text-gray-300 focus:outline-none focus:border-purple-400 dark:border-gray-600 dark:bg-gray-700 focus:shadow-outline-purple dark:focus:shadow-outline-gray dark:focus:border-gray-600 form-select leading-5 mt-0 p-1 text-xs"
+                                >
+                                  <option value="ACTIVE">ACTIVE</option>
+                                  <option value="INACTIVE">INACTIVE</option>
+                                  <option value="STAND-BY">STAND-BY</option>
+                                </select>
+                              </Label>
+                            </TableCell>
+                            <TableCell>
+                              <SmallButton
+                                disabled={landingPageMutation.isLoading}
+                                onClick={() => handleRemoveLandingPage(id)}
                               >
-                                <option value="ACTIVE">ACTIVE</option>
-                                <option value="INACTIVE">INACTIVE</option>
-                                <option value="STAND-BY">STAND-BY</option>
-                              </select>
-                            </Label>
-                          </TableCell>
-                          <TableCell>
-                            <SmallButton
-                              disable={landingPageMutation.isLoading}
-                              onClick={() => handleRemoveLandingPage(id)}
-                            >
-                              remove
-                            </SmallButton>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    }
-                  )
-                }
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )
+                                remove
+                              </SmallButton>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      }
+                    )
+                  }
+                </TableBody>
+              </Table>
+            </TableContainer>
+          )
       }
     </>
   );

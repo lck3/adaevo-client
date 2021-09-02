@@ -59,6 +59,7 @@ const refreshAuthLogic = (failedRequest: any) => axios.post(
     return Promise.resolve();
 })
 .catch(error => {
+  if(window.location.pathname !== '/login') window.location.replace('/login')
   handleError(error.response.data)
 
 })

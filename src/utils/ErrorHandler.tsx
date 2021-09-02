@@ -10,6 +10,19 @@ const template = `
 </div>
 `;
 
+export interface PlatformServerError extends Error {
+  "message": string,
+  "response"?: {
+    "data": {
+      "url": string,
+      "error": string,
+      "code": number,
+      "content": string
+    }
+  }
+}
+
+
 export function ErrorFallback({ error }: any) {
   return (
     <>
@@ -18,14 +31,23 @@ export function ErrorFallback({ error }: any) {
   );
 }
 
-export function handleRemoteOperationError(error: Error | {code: number, message: string}) {
+/**
+ * Errors from the server are passed in using the response body as the first parameter.
+ * Server errors contain a `code` property which helps the client display the 
+ * correct error message alert.
+ * Errors generated from client operations are expected to be native JS errors.
+ * This function will use the `message` property to display an error message alert.
+ * @param error 
+ */
+export function handleRemoteOperationError(error: PlatformServerError ) {
   const containerQuery = document.querySelector("body .platform-alert.failure-notice");
   let message = ''
-  if (error instanceof Error) {
+  if (!error.response) {
     message = error.message
   } else {
-    message = i18n.t(`serverResponse.${error.code}`)
+    message = i18n.t(`serverResponse.${error.response.data.code}`)
   }
+ 
   if (!containerQuery) {
     // @ts-ignore
     document.querySelector("body").insertAdjacentHTML("afterbegin", template);
@@ -52,3 +74,4 @@ export function handleRemoteOperationError(error: Error | {code: number, message
     }, 5000);
   }
 }
+

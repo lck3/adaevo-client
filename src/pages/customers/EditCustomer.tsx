@@ -29,7 +29,10 @@ function EditCustomerPage() {
 
   const { data: customerData } = useQuery(
     ['updateCustomerData', customerId],
-    () => getOneCustomerRequest(Number(customerId))
+    () => getOneCustomerRequest(Number(customerId)),
+    {
+      onError: (error: Error) => handleRemoteOperationError(error)
+    }
   )
 
 

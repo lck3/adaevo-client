@@ -12,10 +12,19 @@
     "buttonText": "Login"
   },
   "serverResponse": {
+    "606": "Your last request was unsuccessful. Refreshing this page and try again.",
     "613" : "Your username or password is not correct. Kindly try again.",
     "611" : "Your Session expired. To Continue, kindly login again.",
     "612" : "Your Session expired. To Continue, kindly login again.",
     "unknown": "Login Attempt Failed. Please try again"
+  },
+  "campaigns": {
+    "addCampaign":{
+      "response" : {
+        "success": "The campaign record has been created successfully.",
+        "failed" : "An error occured while creating a campaign. Check the data submitted and try again."
+      }
+    }
   },
   "customers" : {
     "removeCustomer": {
@@ -40,6 +49,11 @@
           "label": "Business Name",
           "placeholder": "eg ABC.com",
           "required": "Business name is required"
+        }
+      },
+      "fetch": {
+        "response": {
+          "failed":"An error occured while attempting to fetch all customers. Refresh the page and try again."
         }
       }
     }

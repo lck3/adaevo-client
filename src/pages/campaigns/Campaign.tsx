@@ -8,6 +8,7 @@ import { SmallButton } from "../../components/Buttons";
 import { Link } from "react-router-dom";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useQuery } from "react-query";
+import { handleRemoteOperationError } from "src/utils/ErrorHandler";
 const {
   Table,
   TableHeader,
@@ -24,7 +25,10 @@ function ShowCampaigns() {
 
   const { data: campaignTable } = useQuery(
     'campaignTable',
-    getCampaignRequest
+    getCampaignRequest,
+    {
+      onError: (error: any) => handleRemoteOperationError(error)
+    }
   )
 
   return (

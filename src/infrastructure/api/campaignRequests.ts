@@ -1,3 +1,10 @@
+/** 
+ * The services /axios requests defined here return back a Promise without 
+ * any error handling . This passes the responsibility of catching errors 
+ * to the calling function. 
+ * If errors are not caught, errors will likely crash the app and get caught 
+ * the default error boundary
+ */
 import { CreateCampaignPayload } from 'src/core/domains/campaign/entity/types/CreateCampaignPayload'
 import { EditCampaignsPayload } from 'src/core/domains/campaign/entity/types/EditCampaignPayload'
 import { ListCampaignsPayload } from 'src/core/domains/campaign/entity/types/ListCampaignPayload'
@@ -20,7 +27,7 @@ export const getOneCampaignRequest = async (id: number) : Promise<EditCampaignsP
 } 
 
 
-export const updateCampaignRequest = async (id: number, campaign: EditCampaignsPayload) : Promise<EditCampaignsPayload> => {
+export const updateCampaignRequest = async ({id, campaign} : any ) : Promise<EditCampaignsPayload> => {
   const {data} = await axiosInstance.patch("/campaigns/" + id, campaign)
   return data
 } 
