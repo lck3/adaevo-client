@@ -32,7 +32,7 @@ function ShowCampaigns() {
 
   const { data: campaignTable } = useQuery(
     "campaignTable",
-    getCampaignRequest,
+    () => getCampaignRequest(),
     {
       onError: (error: any) => handleRemoteOperationError(error),
     }

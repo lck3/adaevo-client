@@ -16,8 +16,9 @@ export const addNewCampaignRequest = async (campaign: CreateCampaignArguments): 
   return data
 }
 
-export const getCampaignRequest = async () : Promise<ListCampaignsPayload[]> => {
-  const {data} = await axiosInstance.get("/campaigns")
+export const getCampaignRequest = async (queryArgs?: {limit: number, offset: number}) : Promise<ListCampaignsPayload[]> => {
+  
+  const {data} = await axiosInstance.get(`/campaigns?limit=${queryArgs?.limit}&offset=${queryArgs?.offset}`)
   return data
 } 
 

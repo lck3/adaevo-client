@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { handleRemoteOperationError } from 'src/utils/ErrorHandler';
 import { ListCampaignsPayload } from "../../core/domains/campaign/entity/types/ListCampaignPayload";
 import { getCampaignRequest } from "../../infrastructure/api/campaignRequests";
 const {
@@ -18,9 +19,10 @@ export function ActiveCampaignStats ({term}: any) {
   );
 
   useEffect(() => {
-    getCampaignRequest().then((campaigns) => {
+    // @todo clean up this widget later 
+    getCampaignRequest({limit: 5, offset:0}).then((campaigns) => {
       setCampaignTable(campaigns);
-    });
+    }).catch(err => handleRemoteOperationError(err))
   }, []);
   return (
     <table className="h-50" > 
