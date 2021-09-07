@@ -21,6 +21,9 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import { handleRemoteOperationError, PlatformServerError } from "src/utils/ErrorHandler";
 import { useTranslation } from "react-i18next";
 import { handleRemoteOperationSuccess } from "src/utils/SuccessHandler";
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css'; // Import css
+
 const { Input, Label, Button } = require("@windmill/react-ui");
 const {
   Table,
@@ -48,7 +51,6 @@ function UpdateCampaignPage() {
   } = useForm<AddLandingPagePayload>();
 
   const queryClient = useQueryClient();
-  const { go } = useHistory();
 
   const { data: campaignData, isFetching } = useQuery(
     ["campaignData", parseInt(campaignId)],
@@ -120,12 +122,27 @@ function UpdateCampaignPage() {
   };
 
   function handleRemoveLandingPage(id: number) {
-    removeLandingPageRequest(parseInt(campaignId), id)
-      .then(() => {
-        queryClient.invalidateQueries("campaignData");
-        handleRemoteOperationSuccess(t('campaigns.deleteLandingPage.response.success'))
-      })
-      .catch((error: any) => handleRemoteOperationError(error, t('campaigns.deleteLandingPage.response.failed')));
+    confirmAlert({
+      title: 'Confirm removal',
+      message: 'Are you sure remove this landing page.',
+      buttons: [
+        {
+          label: 'Yes',
+          onClick: () => {
+            removeLandingPageRequest(parseInt(campaignId), id)
+            .then(() => {
+              queryClient.invalidateQueries("campaignData");
+              handleRemoteOperationSuccess(t('campaigns.deleteLandingPage.response.success'))
+            })
+            .catch((error: any) => handleRemoteOperationError(error, t('campaigns.deleteLandingPage.response.failed')));
+          }
+        },
+        {
+          label: 'No',
+          onClick: () => false
+        }
+      ]
+    });
   }
 
   function handleStatusUpdate(page: EditLandingPagePayload, status: string) {
@@ -261,7 +278,7 @@ function UpdateCampaignPage() {
                                 >
                                   <option value="ACTIVE">ACTIVE</option>
                                   <option value="INACTIVE">INACTIVE</option>
-                                  <option value="STAND-BY">STAND-BY</option>
+                                  <option value="STANDBY">STAND-BY</option>
                                 </select>
                               </Label>
                             </TableCell>
