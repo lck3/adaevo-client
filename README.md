@@ -6,7 +6,6 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Deployment is handled using simple Github Action flow detailed in the yaml scripts in `.github/workflows`
 
 ## Available Scripts
-
 In the project directory, you can run:
 
 ### `npm start`
