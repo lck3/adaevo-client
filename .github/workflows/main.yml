@@ -9,6 +9,8 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
+    - run: npm install cross-env
+    - run: npm install postcss
     - uses: actions/checkout@main
     - uses: jeanlescure/react-deploy-to-s3-action@main
       with:
@@ -21,3 +23,4 @@ jobs:
         AWS_REGION: us-west-1 # optional: defaults to us-east-1
         SOURCE_DIR: build # optional: defaults to public
         REACT_APP_API_SERVER: ${{ secrets.REACT_APP_API_SERVER }}
+
