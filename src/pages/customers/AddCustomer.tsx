@@ -50,9 +50,7 @@ function AddCustomer() {
   const {
     register,
     handleSubmit,
-    formState
   } = useForm<CreateCustomerPayload>(formOptions);
-  const { errors } = formState;
 
 
 

@@ -12,7 +12,6 @@ import { Link } from "react-router-dom";
 import CopyToClipboard from "react-copy-to-clipboard";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { handleRemoteOperationError } from "src/utils/ErrorHandler";
-import { removeCustomerRequest } from "src/infrastructure/api/customerRequests";
 import { handleRemoteOperationSuccess } from "src/utils/SuccessHandler";
 import { useTranslation } from "react-i18next";
 const {

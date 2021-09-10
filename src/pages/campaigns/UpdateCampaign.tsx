@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import PageTitle from "../../components/Typography/PageTitle";
 import SectionTitle from "../../components/Typography/SectionTitle";
@@ -8,7 +8,7 @@ import {
   updateCampaignRequest,
 } from "src/infrastructure/api/campaignRequests";
 import { AddLandingPagePayload } from "src/core/domains/landingpage/entity/types/AddLandingPagePayload";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { EditCampaignArguments, EditCampaignsPayload } from "src/core/domains/campaign/entity/types/EditCampaignPayload";
 import {
   addNewLandingPageRequest,
@@ -18,7 +18,7 @@ import {
 import { SmallButton } from "src/components/Buttons";
 import { EditLandingPagePayload } from "src/core/domains/landingpage/entity/types/EditLandingPagePayload";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { handleRemoteOperationError, PlatformServerError } from "src/utils/ErrorHandler";
+import { handleRemoteOperationError } from "src/utils/ErrorHandler";
 import { useTranslation } from "react-i18next";
 import { handleRemoteOperationSuccess } from "src/utils/SuccessHandler";
 import { confirmAlert } from 'react-confirm-alert'; // Import

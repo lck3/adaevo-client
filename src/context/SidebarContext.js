@@ -8,7 +8,9 @@ export const SidebarProvider = ({ children }) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function toggleSidebar() {
-    setIsSidebarOpen(!isSidebarOpen)
+    console.log(!isSidebarOpen)
+    // setIsSidebarOpen(!isSidebarOpen)
+    setIsSidebarOpen(true)
   }
 
   function closeSidebar() {
