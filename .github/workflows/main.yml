@@ -10,13 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@main
-    - run: npm install cross-env
-    - run: npm install postscss
     - uses: jeanlescure/react-deploy-to-s3-action@main
       with:
         args: --acl public-read --follow-symlinks --delete
       env:
-        NODE_ENV: production # optional: defaults to production
+        NODE_ENV: test # optional: defaults to production
         AWS_S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
